@@ -50,12 +50,9 @@
               </a>
             </li>
             <li>
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Registro
+            <a class="nav-link" href="{{ route('registro.index') }} ">Registro
               </a>
-               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ route('registro.create') }}">Nuevo</a>
-                <a class="dropdown-item" href="{{ route('registro.index') }}">Listar</a>
-              </div>
+               
               </li>
             <li class="nav-item">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Adiciones</a>
