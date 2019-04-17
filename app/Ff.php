@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Das extends Model
+class Ff extends Model
 {
-   protected $table = 'das'; //
-   public $timestamps = false;
+    protected $table = 'ff';//
+    public $timestamps = false;
    protected $primaryKey = 'cod';	
 }

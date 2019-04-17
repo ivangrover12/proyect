@@ -34,7 +34,7 @@ class RegistroController extends Controller
     //
 
     public function getregistro($year){
-        $result = Ej_Gasto::where('gestion', $year)->orderBy('f_elabo', 'DESC')->get();
+        $result = Ej_Gasto::where('gestion', $year)->orderBy('sec', 'DESC')->get();
         return $result;
     } //
 }

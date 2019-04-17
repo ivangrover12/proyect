@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{asset('css/flag-icon.min.css') }}">
     <link rel="stylesheet" href="{{asset('css/toastr.min.css') }}">
     <link rel="stylesheet" href="{{asset('css/print.min.css') }}">
-    <style>
+    <!-- <style>
         .navbar-default .navbar-nav > li.dropdown:hover > a, 
         .navbar-default .navbar-nav > li.dropdown:hover > a:hover,
         .navbar-default .navbar-nav > li.dropdown:hover > a:focus {
@@ -24,7 +24,7 @@
         li.dropdown:hover > .dropdown-menu {
             display: block;
         }
-    </style>
+    </style> -->
     @yield('styles')
 </head>
 <body>
@@ -57,11 +57,11 @@
             <li class="nav-item">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Adiciones</a>
                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ route('certificado.create') }}">DA y UE</a>
-                <a class="dropdown-item" href="{{ route('certificado.index') }}">Estructura Programatica</a>
-                <a class="dropdown-item" href="{{ route('certificado.index') }}">Documentos</a>
-                <a class="dropdown-item" href="{{ route('certificado.index') }}">Ff</a>
-                <a class="dropdown-item" href="{{ route('certificado.index') }}">Categorias Programaticas</a>
+                <a class="dropdown-item" href="{{ route('das.index') }}">DA y UE</a>
+                <a class="dropdown-item" href="{{ route('estructura.index') }}">Estructura Programatica</a>
+                <a class="dropdown-item" href="{{ route('documentos.index') }}">Documentos</a>
+                <a class="dropdown-item" href="{{ route('fuentes.index') }}">Ff</a>
+                <a class="dropdown-item" href="{{ route('categoria.index') }}">Categorias Programaticas</a>
               </div>
             </li>
             <li class="nav-item">

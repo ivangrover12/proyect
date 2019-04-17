@@ -3,9 +3,9 @@
 @section('styles')
 <link rel="stylesheet" href="{{ asset('css/datatable/dataTables.bootstrap.min.css') }}">
 <style>
-.dataTables_filter{
-    float: left;
-}
+    .dataTables_filter{
+        float: left;
+    }
 </style>
 @endsection
 

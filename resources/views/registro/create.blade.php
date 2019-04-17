@@ -51,7 +51,7 @@
                         <input type="text" class="form-control" v-model="das.da" disabled>
                     </div>
                     <div class="col-md-5">
-                        <input type="text" class="form-control" v-model="das.des_da" disabled>
+                        <input type="text" class="form-control" v-model="das.desc_da" disabled>
                     </div>
                     <div class="col-md-4">
                         <input type="text" class="form-control" 
@@ -91,19 +91,21 @@
                         <label for="">Tipo de Registro</label>
                     </div>
                     <div class="select col-md-3 mt-4">
-                     
-					  <select>
-			    <option value="0">Seleccione</option>
-				<option value="1">Ejecucion de Gastos</option>
-			    <option value="2">Transferencia</option>
-				<option value="3">Fondos de Avance</option>
-			    <option value="4">Fondo Rotativo</option>
-			    <option value="5">Otros</option>
+                         
+					  <select @change="reservation()">
+			    <option  value="0">Seleccione</option>
+				<option  value="1">Ejecucion de Gastos</option>
+			    <option  value="2">Transferencia</option>
+				<option  value="3">Fondos de Avance</option>
+			    <option  value="4">Fondo Rotativo</option>
+			    <option   value="5">Otros</option>
 					   
 					  </select>
 
                     </div>
-                    
+                    <div v-if="reserve" class="select col-md-3 mt-4">
+                        <input type="text" class="form-control" >
+                    </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-2 mt-4">
@@ -298,11 +300,32 @@
                 </div>   
             </div>
         </div>
+        <div class="card-footer">
+        <div class="row text-center">
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-6">
+                La Paz - Bolivia
+            </div>
+            <div class="col-md-3">
+                <div class="row form-group">
+                    <div class="col-md-6">
+                        <label for="">Gestión:</label>
+                    </div>
+                    <select class="col-md-6 form-control" name="" id="" v-model="select">
+                        <option value="2019" selected>2019</option>
+                        <option value="2018">2018</option>
+                        <option value="2017">2017</option>
+                        <option value="2016">2016</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 
   
-    </div>
-</div>
 @endsection
 
 @section('scripts')
@@ -316,7 +339,8 @@ const app = new Vue({
             gestion: '',
             fecha: '',
             das: {},
-            desc_ue: ''
+            desc_ue: '',
+            reserve: false,
             }
     },
     mounted(){
@@ -343,7 +367,19 @@ const app = new Vue({
                         this.das = temp;
                     });
                 }
-            }
+            },
+        reservation(){
+            this.reserve = true;
+            
+            // var convert = numeroALetras(this.saldo, {
+            //     plural: "Bolivianos",
+            //     singular: "Boliviano",
+            //     centPlural: "Centavos",
+            //     centSingular: "Centavo"
+            // });
+            // this.convert = this.first(convert);
+        },
+
         }
 })
 </script>
