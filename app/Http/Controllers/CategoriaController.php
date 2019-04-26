@@ -13,7 +13,10 @@ use Illuminate\Http\Request;
 
 class CategoriaController extends Controller
 {
-	public function index()
+	public function __contruct(){
+        $this->middleware('auth');
+    }
+    public function index()
 	{
 		return view('categoria.index'); //	
 	}
@@ -23,7 +26,7 @@ class CategoriaController extends Controller
     }
     public function new(Request $request)
     {
-         // return $request;
+        //return $request;
 
         $nuevo = new Partidas();
         $nuevo->objgast = $request->objgast;
@@ -34,7 +37,7 @@ class CategoriaController extends Controller
     }
         public function update(Request $request)
     {
-        // return $request;
+        //return $request;
 
         $dass = Partidas::where('cod', $request->cod)->first();
         $dass->objgast = $request->objgast;

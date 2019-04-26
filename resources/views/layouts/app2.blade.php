@@ -35,10 +35,14 @@
                 <h4>Ministerio de Desarrollo Rural y Tierras </h4>
             </div>
             <div class="col-md-4">
-                <h6>Usuario: </h6>
+                <h6>Usuario:</h6>
+               <p>{{ Auth::user()->first_name }}</p>
                 <h6>Fecha:</h6>
+              <p>{{ Now()->year }} / {{ '0'.Now()->month }} / {{ Now()->day }}</p>
+
             </div>
-        </div>
+         </div>
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light "  >
             
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -58,14 +62,14 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Adiciones</a>
                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="{{ route('das.index') }}">DA y UE</a>
-                <a class="dropdown-item" href="{{ route('estructura.index') }}">Estructura Programatica</a>
+                <a class="dropdown-item" href="{{ route('estructura.index')}}">Estructura Programatica</a>
                 <a class="dropdown-item" href="{{ route('documentos.index') }}">Documentos</a>
                 <a class="dropdown-item" href="{{ route('fuentes.index') }}">Ff</a>
                 <a class="dropdown-item" href="{{ route('categoria.index') }}">Categorias Programaticas</a>
               </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Usuarios</a>
+                <a class="nav-link" href="{{ route('user.main') }}">Usuarios</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Log</a>

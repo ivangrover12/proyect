@@ -24,7 +24,7 @@ class EstructuraController extends Controller
     } //
     public function new(Request $request)
     {
-         // return $request;
+        // return $request;
    
         $nuevo = new CatProg();
         $nuevo->da = $request->da;
@@ -33,23 +33,33 @@ class EstructuraController extends Controller
         $nuevo->proy = $request->proy;
         $nuevo->act = $request->act;
         $nuevo->nombre = $request->nombre;
-        $nuevo->sisin = $request->sisin;
+        if($request->sisin){
+            $nuevo->sisin = $request->sisin;    
+        }
+        else{
+            $nuevo->sisin ="";
+        }
         $nuevo->gestion = $request->gestion;
         $nuevo->save();
         
     }
     public function update(Request $request)
     {
-         //return $request;
+        // return $request;
 
-        $dass = CatProg::where('cod', $request->cod)->first();
+        $nuevo = CatProg::where('cod', $request->cod)->first();
         $nuevo->da = $request->da;
         $nuevo->ue = $request->ue;
         $nuevo->prog = $request->prog;
         $nuevo->proy = $request->proy;
         $nuevo->act = $request->act;
         $nuevo->nombre = $request->nombre;
-        $nuevo->sisin = $request->sisin;
+        if($request->sisin){
+            $nuevo->sisin = $request->sisin;    
+        }
+        else{
+            $nuevo->sisin ="";
+        }
         $nuevo->gestion = $request->gestion;
         $nuevo->save();
         

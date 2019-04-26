@@ -12,7 +12,7 @@
 @section('content')
 <div class="card">
 	<div class="card-header">
-		DIRECCIONES ADMINISTRATIVAS Y UNIDADES EJECUTORAS
+		CATEGORIAS PROGRAMATICAS
         @{{ $data.cod }}
 	</div>
 	<div class="card-body">
@@ -71,7 +71,7 @@
         </div>
     </div>
 </div>
-@endsection
+
 <!-- Modal -->
 <div class="modal fade bd-example-modal-lg" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
@@ -156,6 +156,7 @@
     </div>
   </div>
 </div>
+@endsection
 @section('scripts')
 <script src="{{ asset('js/data-table/datatables.min.js') }}"></script>
 <script src="{{ asset('js/data-table/dataTables.bootstrap.min.js') }}"></script>
@@ -176,12 +177,14 @@ const app = new Vue({
                 secuencia: '',
                 objgast: '',
                 descrip: '',
+                cod: '',
             }
         },
         mounted() {
             var today = new Date();
             var yyyy = today.getFullYear();
             this.select = yyyy;
+            this.gestion = yyyy;
             axios.get('/getcategoria/'+this.select).then(response => {
                 this.docs = response.data;
                 setTimeout(function(){$('#bootstrap-data-table-export').DataTable(
@@ -258,7 +261,8 @@ const app = new Vue({
                 objgast: this.objgast,
                 descrip: this.descrip,
                 gestion: this.gestion,
-                cod: this.cod
+                cod: this.cod,
+                
 
             };
             axios.post('/update_categoria', data).then(response => {

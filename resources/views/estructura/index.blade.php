@@ -65,7 +65,7 @@
                             <td>@{{ doc.sisin }}</td>
                             </td>
                         </tr>
-                     </tbody>
+                     </tbody>   
                 </table>
                 </div>
         	</div>
@@ -120,7 +120,7 @@
                         <label for="">U.E. :</label>
                     </div>
                     <div class="col-md-10 pt-3">
-                        <input type="text" class="form-control" :class="ue ? '' : 'bg-warning'" v-model="ue" placeholder="Ingrese el ID de U.E.">
+                        <input type="number" class="form-control" :class="ue ? '' : 'bg-warning'" v-model="ue" placeholder="Ingrese el ID de U.E.">
                     </div>
                     <div class="col-md-2 pt-3" >
                         <label for="">PROG:</label>
@@ -132,13 +132,13 @@
                         <label for="">PROY :</label>
                     </div>
                     <div class="col-md-10 pt-3">
-                        <input type="text" class="form-control" :class="proy ? '' : 'bg-warning'" v-model="proy" placeholder="Ingrese el ID de PROY">
+                        <input type="number" class="form-control" :class="proy ? '' : 'bg-warning'" v-model="proy" placeholder="Ingrese el ID de PROY">
                     </div>
                      <div class="col-md-2 pt-3" >
                         <label for="">ACT :</label>
                     </div>
                     <div class="col-md-10 pt-3">
-                        <input type="text" class="form-control" :class="act ? '' : 'bg-warning'" v-model="act" placeholder="Ingrese el ID de PROG">
+                        <input type="number" class="form-control" :class="act ? '' : 'bg-warning'" v-model="act" placeholder="Ingrese el ID de PROG">
                     </div>
                      <div class="col-md-2 pt-3" >
                         <label for="">NOMBRE :</label>
@@ -150,7 +150,7 @@
                         <label for="">SISIN :</label>
                     </div>
                     <div class="col-md-10 pt-3">
-                        <input type="text" class="form-control" :class="sisin ? '' : 'bg-warning'" v-model="sisin" placeholder="Ingrese el SISIN">
+                        <input type="number" class="form-control" :class="sisin ? '' : 'bg-warning'" v-model="sisin" placeholder="Ingrese el SISIN">
                     </div>
                                 
             </div>
@@ -174,7 +174,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form @submit.prevent="update_das()">
+      <form @submit="update_das()">
       <div class="modal-body">
             
           <div class="row form-group">
@@ -185,43 +185,43 @@
                         <label for="">D.A. :</label>
                     </div>
                     <div class="col-md-10 pt-3">
-                        <input type="number" class="form-control" :class="da ? '' : 'bg-warning'" v-model="da" placeholder="Ingrese el Id de D.A.">
+                        <input type="number" class="form-control"  v-model="da" placeholder="Ingrese el Id de D.A.">
                     </div>
                     <div class="col-md-2 pt-3" >
                         <label for="">U.E. :</label>
                     </div>
                     <div class="col-md-10 pt-3">
-                        <input type="text" class="form-control" :class="ue ? '' : 'bg-warning'" v-model="ue" placeholder="Ingrese el ID de U.E.">
+                        <input type="number" class="form-control"  v-model="ue" placeholder="Ingrese el ID de U.E.">
                     </div>
                     <div class="col-md-2 pt-3" >
                         <label for="">PROG:</label>
                     </div>
                     <div class="col-md-10 pt-3">
-                        <input type="number" class="form-control" :class="prog ? '' : 'bg-warning'" v-model="prog" placeholder="Ingrese el ID de PROG">
+                        <input type="number" class="form-control"  v-model="prog" placeholder="Ingrese el ID de PROG">
                     </div>
                     <div class="col-md-2 pt-3" >
                         <label for="">PROY :</label>
                     </div>
                     <div class="col-md-10 pt-3">
-                        <input type="text" class="form-control" :class="proy ? '' : 'bg-warning'" v-model="proy" placeholder="Ingrese el ID de PROY">
+                        <input type="number" class="form-control"  v-model="proy" placeholder="Ingrese el ID de PROY">
                     </div>
                      <div class="col-md-2 pt-3" >
                         <label for="">ACT :</label>
                     </div>
                     <div class="col-md-10 pt-3">
-                        <input type="text" class="form-control" :class="act ? '' : 'bg-warning'" v-model="act" placeholder="Ingrese el ID de ACT">
+                        <input type="number" class="form-control" v-model="act" placeholder="Ingrese el ID de ACT">
                     </div>
                      <div class="col-md-2 pt-3" >
                         <label for="">NOMBRE :</label>
                     </div>
                     <div class="col-md-10 pt-3">
-                        <input type="text" class="form-control" :class="nombre ? '' : 'bg-warning'" v-model="nombre" placeholder="Ingrese el Nombre">
+                        <input type="text" class="form-control" v-model="nombre" placeholder="Ingrese el Nombre">
                     </div>
                      <div class="col-md-2 pt-3" >
                         <label for="">SISIN :</label>
                     </div>
                     <div class="col-md-10 pt-3">
-                        <input type="text" class="form-control" :class="sisin ? '' : 'bg-warning'" v-model="sisin" placeholder="Ingrese el SISIN">
+                        <input type="number" class="form-control" v-model="sisin" placeholder="Ingrese el SISIN">
                     </div>
                                 
             </div>
@@ -274,6 +274,7 @@ const app = new Vue({
             var today = new Date();
             var yyyy = today.getFullYear();
             this.select = yyyy;
+            this.gestion = yyyy;
             axios.get('/getestructura/'+this.select).then(response => {
                 this.docs = response.data;
                 setTimeout(function(){$('#bootstrap-data-table-export').DataTable(
@@ -323,6 +324,8 @@ const app = new Vue({
                 prog: this.prog,
                 proy: this.proy,
                 act: this.act,
+                nombre: this.nombre,
+                sisin: this.sisin,
                 gestion: this.gestion,
                 
 

@@ -18,7 +18,7 @@
     <div class="card-body">
         <div v-if="secuencia" class="row">
             <a class="btn btn-secondary" href="{{ route('registro.create') }}">Nuevo</a>
-            <a class="btn btn-info" :href="'/cert/edit/'+secuencia">Editar</a>
+            <a class="btn btn-info" :href="'/reg/edit/'+secuencia">Editar</a>
             <button type="button" class="btn btn-danger">Reporte 1</button> 
             <button type="button" class="btn btn-danger">Reporte 2</button>
         </div>

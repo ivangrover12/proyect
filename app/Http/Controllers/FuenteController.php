@@ -22,7 +22,7 @@ class FuenteController extends Controller
     } //
    public function new(Request $request)
     {
-         // return $request;
+        // return $request;
         $nuevo = new Ff();
         $nuevo->ff = $request->ff;
         $nuevo->descrip = $request->descrip;

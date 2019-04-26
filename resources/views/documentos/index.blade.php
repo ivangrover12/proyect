@@ -71,6 +71,8 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
 <div class="modal fade bd-example-modal-lg" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -91,14 +93,14 @@
                         <label for="">Cod :</label>
                     </div>
                     <div class="col-md-10 pt-3">
-                        <input type="number" class="form-control" :class="nro ? '' : 'bg-warning'" v-model="nro" placeholder="Ingrese el Id de D.A.">
+                        <input type="number" class="form-control" :class="nro ? '' : 'bg-warning'" v-model="nro" placeholder="Ingrese el  Codigo.">
                     </div>
                     <div class="col-md-2 pt-3" >
                         <label for="">Detalle :</label>
                     </div>
                    
                     <div class="col-md-10 pt-3">
-                        <input type="text" class="form-control" :class="descrip ? '' : 'bg-warning'" v-model="descrip" placeholder="Ingrese el Detalle de U.E.">
+                        <input type="text" class="form-control" :class="descrip ? '' : 'bg-warning'" v-model="descrip" placeholder="Ingrese el Detalle.">
                     </div>
                                 
             </div>
@@ -173,13 +175,17 @@ const app = new Vue({
             return{
                 select: '',
                 docs: [],
-                secuencia: ''
+                secuencia: '',
+                nro: '',
+                descrip: '',
+                cod: '',
             }
         },
         mounted() {
             var today = new Date();
             var yyyy = today.getFullYear();
             this.select = yyyy;
+            this.gestion = yyyy;
             axios.get('/getdocumentos/'+this.select).then(response => {
                 this.docs = response.data;
                 setTimeout(function(){$('#bootstrap-data-table-export').DataTable(
@@ -224,19 +230,13 @@ const app = new Vue({
         methods: {
             new_das(){
             const data = {
-                nda: this.nda,
-                dda: this.dda,
-                nue: this.nue,
-                due: this.due,
+                descrip: this.descrip,
+                nro: this.nro,
                 gestion: this.gestion,
-                lugar: this.das[0].lugar, 
-                desc_lug: this.das[0].desc_lug,
-                entidad: this.das[0].entidad,
-                desc_entidad: this.das[0].desc_entidad,
-
+                
                 
             };
-            axios.post('/new_das', data).then(response => {
+            axios.post('/new_documentos', data).then(response => {
                 $('#modal1').modal('hide');
             });
             // var convert = numeroALetras(this.saldo, {
@@ -262,7 +262,9 @@ const app = new Vue({
               const data = {
                 nro: this.nro,
                 descrip: this.descrip,
-                cod: this.cod
+                cod: this.cod,
+                gestion: this.gestion
+                
 
                 
             };

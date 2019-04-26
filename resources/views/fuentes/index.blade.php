@@ -110,7 +110,7 @@
                         <label for="">Financiamientos:</label>
                     </div>
                     <div class="col-md-10 pt-3">
-                        <input type="number" class="form-control" :class="financ ? '' : 'bg-warning'" v-model="financ" placeholder="Ingrese el Financiamiento">
+                        <input type="text" class="form-control" :class="financ ? '' : 'bg-warning'" v-model="financ" placeholder="Ingrese el Financiamiento">
                     </div>
                     <div class="col-md-2 pt-3" >
                         <label for="">Sigla:</label>
@@ -163,7 +163,7 @@
                         <label for="">Financiamientos:</label>
                     </div>
                     <div class="col-md-10 pt-3">
-                        <input type="number" class="form-control" :class="financ ? '' : 'bg-warning'" v-model="financ" placeholder="Ingrese el Financiamiento">
+                        <input type="text" class="form-control" :class="financ ? '' : 'bg-warning'" v-model="financ" placeholder="Ingrese el Financiamiento">
                     </div>
                     <div class="col-md-2 pt-3" >
                         <label for="">Sigla:</label>
@@ -208,13 +208,14 @@ const app = new Vue({
                 descrip: '',
                 financ: '',
                 sigla: '',
-                
+
             }
         },
         mounted() {
             var today = new Date();
             var yyyy = today.getFullYear();
             this.select = yyyy;
+            this.gestion = yyyy;
             axios.get('/getfuentes/'+this.select).then(response => {
                 this.docs = response.data;
                 setTimeout(function(){$('#bootstrap-data-table-export').DataTable(
