@@ -17,7 +17,7 @@ class DasController extends Controller
 
    public function index()
     {
-        return view('das.index', compact('das'));
+        return view('das.index');
     } 
     public function getdas($year){
         $result = Das::where('gestion', $year)->orderBy('da', 'ASC')->get();

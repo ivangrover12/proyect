@@ -4,6 +4,7 @@
 <div class="card">
     <div class="card-header">
         EJECUCION DE GASTO CORRIENTE - Registro
+        @{{ $data }}
     </div>
     <div class="card-body">
         <div class="row">
@@ -23,7 +24,7 @@
                         <label for="">Fec. Elaboración:</label>
                     </div>
                     <div class="col-md-4">
-                        <input type="text" class="form-control" v-model="fecha">
+                        <input type="date" class="form-control" v-model="fecha">
                     </div>
                 </div>
                 <div class="row form-group">
@@ -40,7 +41,7 @@
                         <label for="">Secuencia:</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" class="form-control"  disabled>
+                        <input type="text" class="form-control"  v-model="secuencia" disabled>
                     </div>
                 </div>
                 <div class="row form-group">
@@ -76,13 +77,13 @@
                     </div>
                     <div class="col-md-10 mt-4">
                     <label for=""> Preventivo </label>
-                    <input type="checkbox" value="" /> 
+                    <input type="checkbox" value="false" v-model.bool="mpre" /> 
                     <label for="">------Comprometido </label>
-                    <input type="checkbox" value="" />
+                    <input type="checkbox" value="false" v-model.bool="mcom"/>
                     <label for="">-----Devengado </label>
-                    <input type="checkbox" value=""/>
+                    <input type="checkbox" value="false" v-model.bool="mdev"/>
                     <label for="">-----Regularizacion </label>
-     				<input type="checkbox" value=""/>
+                    <input type="checkbox" value="false" v-model.bool="mreg"/>
                     </div>
                     
                 </div>
@@ -92,63 +93,61 @@
                     </div>
                     <div class="select col-md-3 mt-4">
                          
-					  <select @change="reservation()">
-			    <option  value="0">Seleccione</option>
-				<option  value="1">Ejecucion de Gastos</option>
-			    <option  value="2">Transferencia</option>
-                @if(tipo=='Fondos de Avance')
-				<option  value="3" selected>Fondos de Avance</option>
-                @else
-                <option  value="3">Fondos de Avance</option>
-                @endif
-			    <option  value="4">Fondo Rotativo</option>
-			    <option   value="5">Otros</option>
-					   
-					  </select>
+              <select @change="reservation()" v-model="registro">
+                <option  value="">Seleccione</option>
+                <option  id="r1" value="Ejecucion de gastos">Ejecucion de gastos</option>
+                <option  id="r2" value="Transferencia">Transferencia</option>
+                                            
+                <option  id="r3" value="Fondos en avance" >Fondos en avance</option>
+                
+                <option  id="r4" value="Fondo Rotativo">Fondo Rotativo</option>
+                <option   id="r5" value="Otros">Otros</option>
+                      
+                      </select>
 
                     </div>
                     <div v-if="reserve" class="select col-md-3 mt-4">
-                        <input type="text" class="form-control" >
+                        <input type="text" class="form-control" v-model="detipo">
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-2 mt-4">
-                        <label for="">	BENEFICIARIO </label>
+                        <label for="">  BENEFICIARIO </label>
                     </div>
                     <div class="select col-md-10 mt-4">
                      
-					  <input type="text" class="form-control">
+                      <input type="text" class="form-control" v-model="benefi">
 
                     </div>
                     
                 </div>
                   <div class="row form-group">
                     <div class="col-md-12 mt-4">
-                        <label for="">	DOCUMENTOS DE RESPALDO </label>
+                        <label for="">  DOCUMENTOS DE RESPALDO </label>
                     </div>
                     <div class="col-md-2">
                         <label for="">Tipo de Documento:</label>
                     </div>
                     <div class="col-md-1">
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" v-model="tip" @keyup="findTip()">
                     </div>
                     <div class="col-md-5">
-                        <input type="text" class="form-control" disabled>
+                        <input type="text" class="form-control" v-model="ddoc" disabled>
                     </div>
                     <div class="col-md-1">
                         <label for="">Nº.</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" v-model="nro">
                     </div>                
                     <div class="col-md-2 mt-2">
                         <label for="">Fecha de Recepcion:</label>
                     </div>
                     <div class="col-md-6 mt-2">
-                        <input type="text" class="form-control">
+                        <input type="Date" class="form-control" v-model="f_rece">
                     </div>
                     <div class="col-md-2 mt-2">
-                        <button class="btn btn-info btn-block" >Guardar</button>
+                        <button class="btn btn-info btn-block" @click="saveej_gasto()">Guardar</button>
                     </div>
                     
                 </div>
@@ -169,10 +168,10 @@
                         <label for="">Clase de Gasto:</label>
                     </div>
                     <div class="col-md-2">
-                        <input type="text" class="form-control" >
+                        <input type="text" class="form-control" v-model="clas_gasto" v-on:keyup="findClas_gasto()">
                     </div>
                     <div class="col-md-7">
-                        <input type="text" class="form-control" disabled>
+                        <input type="text" class="form-control" v-model="dgasto" disabled>
                     </div>
                 </div>
                 <div class="row form-group">
@@ -180,10 +179,10 @@
                         <label for=""> Fuente:</label>
                     </div>
                     <div class="col-md-2">
-                        <input type="text" class="form-control" >
+                        <input type="text" class="form-control" v-model="ff" @keyup="findFuente()">
                     </div>
                     <div class="col-md-7">
-                        <input type="text" class="form-control" disabled  disabled>
+                        <input type="text" class="form-control" v-model="dff" disabled>
                     </div>
                 </div>
                 <div class="row form-group">
@@ -191,10 +190,10 @@
                         <label for="">Organismo:</label>
                     </div>
                     <div class="col-md-2">
-                        <input type="text" class="form-control" disabled  disabled>
+                        <input type="text" class="form-control" v-model="org" @keyup="findOrg()">
                     </div>
                     <div class="col-md-7">
-                        <input type="text" class="form-control" disabled  disabled>
+                        <input type="text" class="form-control" v-model="dorg" disabled>
                     </div>
                 </div>
                 
@@ -205,7 +204,7 @@
                     <label for="">Resumen:</label>
                 </div>
                 <div class="row form-group">
-                    <textarea class="form-control" name="" id="" rows="3" ></textarea>
+                    <textarea class="form-control" name="" id="" rows="4" style="font-size:12px; font-type:Arial" v-model="res"></textarea>
                 </div>
                 
             </div>
@@ -220,7 +219,7 @@
                         <label for="">Prog:</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" :class="detall.prog ? '' : 'bg-warning'" v-model="detall.prog">
                     </div>
                     
                 </div>
@@ -229,7 +228,7 @@
                         <label for=""> Proy:</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" :class="detall.proy ? '' : 'bg-warning'"v-model="detall.proy">
                     </div>
                     
                 </div>
@@ -238,7 +237,7 @@
                         <label for="">Act:</label>
                     </div>
                     <div class="col-md-3">
-                         <input type="text" class="form-control">
+                         <input type="text" class="form-control" :class="detall.act ? '' : 'bg-warning'"v-model="detall.act">
                     </div>
                     
                 </div>
@@ -247,10 +246,10 @@
                         <label for="">Obj. Gasto:</label>
                     </div>
                     <div class="col-md-3">
-                         <input type="text" class="form-control">
+                         <input type="text" class="form-control" :class="detall.obj_gast ? '' : 'bg-warning'" v-model="detall.obj_gast">
                     </div>
                     <div class="col-md-7">
-                        <input type="text" class="form-control" disabled disabled>
+                        <input type="text" class="form-control" disabled >
                     </div>
                 </div>
                 <div class="row form-group">
@@ -258,7 +257,7 @@
                         <label for="">Ent. trf:</label>
                     </div>
                     <div class="col-md-3">
-                         <input type="text" class="form-control">
+                         <input type="text" class="form-control" :class="detall.ent_trf ? '' : 'bg-warning'" v-model="detall.ent_trf">
                     </div>
                     
                 </div>
@@ -267,13 +266,13 @@
                         <label for="">Importe:</label>
                     </div>
                     <div class="col-md-3">
-                         <input type="text" class="form-control">
+                         <input type="text" class="form-control" :class="detall.importe ? '' : 'bg-warning'" v-model="detall.importe">
                     </div>
                     
                 </div>
                 <div class="row form-group">
                     <div class="col-md-4 mt-2">
-                        <button class="btn btn-info btn-block" >Agregar</button>
+                        <button class="btn btn-info btn-block" @click="savedetall_ega()">Agregar</button>
                     </div>
                     <div class="col-md-4 mt-2">
                         <button class="btn btn-info btn-block" >Reporte</button>
@@ -304,6 +303,35 @@
                 </div>   
             </div>
         </div>
+    <hr v-if="det">
+    <div v-if="det" class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center">PROG</th>
+                    <th class="text-center">PROY</th>
+                    <th class="text-center">ACT</th>
+                    <th class="text-center">OBJ. GASTO</th>
+                    <th class="text-center">ENT.TRF.</th>
+                    <th class="text-center">IMPORTE</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="get_detall in detall">
+                    
+                    <td class="text-center">@{{ get_detall.prog }}</td>
+                    <td class="text-center">@{{ get_detall.proy }}</td>
+                    <td class="text-center">@{{ get_detall.act }}</td>
+                    <td class="text-center">@{{ get_detall.obj_gast }}</td>
+                    <td class="text-center">@{{ get_detall.ent_trf }}</td>
+                    <td class="text-center">@{{ get_detall.importe }}</td>
+                    <td style="display:none;" class="text-center">@{{ get_detall.cod }}</td>
+                    <td class="text-center"><button @click="deletedetall(get_detall)">Borrar</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
         <div class="card-footer">
         <div class="row text-center">
             <div class="col-md-3">
@@ -344,7 +372,33 @@ const app = new Vue({
             fecha: '',
             das: {},
             desc_ue: '',
+            secuencia: '',
             reserve: false,
+            detall: [],
+            det: true,
+            nro: '',
+            tipo: '',
+            detipo: '',
+            benefi: '',
+            tip: '',
+            ddoc: '',
+            f_rece: '',
+            clas_gasto: '',
+            ff: '',
+            org: '',
+            dgasto: '',
+            dff: '',
+            dorg: '',
+            res: '',
+            TRUE: true,
+            mpre: false,
+            mcom: false,
+            mdev: false,
+            mreg: false,
+            secu: '',
+            cod_prev: '',
+            registro:''
+
             }
     },
     mounted(){
@@ -361,30 +415,169 @@ const app = new Vue({
         this.gestion = yyyy;
         this.fecha = yyyy+'-'+mm+'-'+dd;
         this.select = yyyy;
-    },
-    methods:{
-        findUE(){
+        
+        axios.get('/find/findsecuencia/'+this.select).then(res => 
+                           {
+                            const temp = res.data;
+                            this.secuencia = temp
+
+                           }); 
+          
+    
+     },
+      methods:{
+            saveej_gasto(){
+                
+            if(this.ue && this.desc_ue && this.secuencia && this.nro && this.benefi && this.tip && this.clas_gasto && this.ff && this.org && this.registro && this.detipo && this.fecha){
+            const data = {
+                secuencia: this.secuencia,
+                lugar: this.das.lugar,
+                registro: this.registro,
+                detipo: this.detipo,
+                entidad: this.das.entidad,
+                dir: this.das.da,
+                ue: this.das.ue,
+                f_elabo: this.fecha,
+                mpre: this.mpre,
+                mcom: this.mcom,
+                mdev: this.mdev,
+                mreg: this.mreg,
+                tip: this.tip,
+                f_rece: this.f_rece,
+                nro: this.nro,
+                clas_gasto: this.clas_gasto, 
+                ff: this.ff,
+                org: this.org,
+                resumen: this.res,
+                total: this.total,
+                lite: this.lite,
+                benefi: this.benefi,
+                gestion: this.gestion,
+                
+            };
+
+            axios.post('/ej_gasto/create', data).then(response => {
+                toastr.success('Registro Guardado', 'Operación exitosa');
+                if(response.data[0]){
+                    this.det = true;
+                    this.detall = response.data[0];
+                    console.log(this.detall)
+                }
+                else{
+                    this.det = false;
+                    console.log('else')
+                }
+            });
+            }
+            else{
+                toastr.error('Complete los campos en amarillo', '¡Error!')
+            }
+            
+        },
+        savedetall_ega(){
+                
+            if(this.detall.prog && this.detall.proy && this.detall.act && this.detall.obj_gast && this.detall.ent_trf && this.detall.importe){
+            const data = {
+                cod_prev: this.detall.cod_prev,
+                prog: this.detall.prog,
+                proy: this.detall.proy,
+                act: this.detall.act,
+                obj_gast: this.detall.obj_gast,
+                ent_trf: this.detall.ent_trf,
+                importe: this.detall.importe,
+                gestion: this.detall.gestion,
+             
+            };
+            axios.post('/detall/create', data).then(response => {
+                if(response.data[0]){
+                    this.det = true;
+                    this.detall = response.data[0];
+                    
+                }
+                else{
+                    this.det = false;
+                }
+            });
+            }
+            else{
+                toastr.error('Complete los campos en amarillo', '¡Error!')
+            }
+            
+        },
+        deletedetall(get_detall){
+            axios.delete('/det/delete/'+get_detall.cod).then(response => {
+                if(response.data){
+                    this.detall = response.data;
+                }
+                else{
+                    this.det = false;
+                }
+                
+                });
+            },
+            findUE(){
                 if(this.ue != ''){
                     axios.get('/find/findue/'+this.ue+'/'+this.select).then(response => {
-                        const temp = response.data;
-                        this.desc_ue = temp.desc_ue;
-                        this.das = temp;
-                    });
+                            const temp = response.data;
+                            this.desc_ue = temp.desc_ue;
+                            this.das = temp;
+                            
+                        });
+                    }
+                },
+            findClas_gasto(){
+                
+                if(this.clas_gasto != ''){
+                   axios.get('/find/findtipogasto/'+this.select+'/'+this.clas_gasto).then(resp => {
+                    const temp = resp.data;
+                    this.dgasto = temp.nom;
+                    // console.log(resp.data)
+                });
                 }
             },
-        reservation(){
-            this.reserve = true;
-            
-            // var convert = numeroALetras(this.saldo, {
-            //     plural: "Bolivianos",
-            //     singular: "Boliviano",
-            //     centPlural: "Centavos",
-            //     centSingular: "Centavo"
-            // });
-            // this.convert = this.first(convert);
-        },
+            findFuente(){
+                if(this.ff != ''){
+                   axios.get('/find/findfuente/'+this.select+'/'+this.ff).then(res => {
+                    const temp = res.data;
+                    this.dff = temp.descrip;
+                    // console.log(respo.data)
+                });
+                }
+            },
+            findOrg(){
+                if(this.org != ''){
+                   axios.get('/find/findorg/'+this.select+'/'+this.org).then(re => {
+                    const temp = re.data;
+                    this.dorg = temp.descr_org;
+                    // console.log(respo.data)
+                });
+                }
+            },
+            findTip(){
+
+                    if(this.tip != ''){
+                       axios.get('/find/finddoc/'+this.select+'/'+this.tip).then(respo => {
+                        const doc = respo.data;
+                        this.ddoc = doc.descrip;
+                        
+                    });
+                    }
+                },
+                
+            reservation(){
+                this.reserve = true;
+                
+                // var convert = numeroALetras(this.saldo, {
+                //     plural: "Bolivianos",
+                //     singular: "Boliviano",
+                //     centPlural: "Centavos",
+                //     centSingular: "Centavo"
+                // });
+                // this.convert = this.first(convert);
+            },
 
         }
-})
+
+ })
 </script>
 @endsection

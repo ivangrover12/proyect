@@ -18,7 +18,7 @@ class CertificadoController extends Controller
    public function index()
     {
         // $certificados = Certificado::orderBy('secuencia', 'ASC')->get();
-        return view('certificado.index', compact('certificados'));
+        return view('certificado.index');
     }
 
     /**
@@ -49,6 +49,12 @@ class CertificadoController extends Controller
         if ($das) {
             $result = $das;
             return $result;
+        }
+        elseif ($ue ='null') {
+            return '';
+        }
+        elseif ($ue = null) {
+            return '';
         }
         else{
             return '';
