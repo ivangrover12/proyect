@@ -20,8 +20,8 @@
         <div v-if="secuencia" class="row" href="#jfloat">
             <a class="btn btn-secondary" href="{{ route('certificado.create') }}">Nuevo</a>
             <a class="btn btn-info" :href="'/cert/edit/'+secuencia">Editar</a>
-            <button type="button" class="btn btn-danger btn-rounded">Reporte 1</button> 
-            <button type="button" class="btn btn-danger btn-rounded">Reporte 2</button>
+            <a type="button" :href="'/print/cert/reporte1/'+secuencia" class="btn btn-danger btn-rounded">Reporte 1</a> 
+            <a type="button" :href="'/print/cert/reporte2/'+secuencia" class="btn btn-danger btn-rounded">Reporte 2</a>
         </div>
 
         <div v-else class="row" href="#jfloat">
@@ -152,10 +152,13 @@ const app = new Vue({
                             "next": "Siguiente",
                             "previous": "Anterior"
                         }
+                        
                     },
+   
                 }
                 );}, 0);
             });
+            
             $('#bootstrap-data-table-export tbody').on( 'click', 'tr', function () {
                 if ( $(this).hasClass('bg-warning') ) {
                     $(this).removeClass('bg-warning');
@@ -207,7 +210,5 @@ const app = new Vue({
             }
         },
 });
-
-
 </script>
 @endsection

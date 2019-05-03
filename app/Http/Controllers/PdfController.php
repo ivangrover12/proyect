@@ -10,18 +10,20 @@ class PdfController extends Controller
  	// return \PDF::loadFile('https://github.com/')->stream('github.pdf'); 
 
 
- 	public function print($id) {
+ 	public function print1($id) {
 		// $headerHtml = view()->make('partial.head')->render();
 		// $footerHtml = view()->make('partial.foot')->render();
-		$pageMargins = [30, 25, 40, 30];
+		$pageMargins = [5, 5, 5, 5];
 		$pageName = 'guia_internacion.pdf';
 		$data = [
+			'pr' => 'hola',
+			'pq' => 'mundo'
 		// 'guia_internacion' => GuiaInternacion::with('productor', 'productor.departamento_extension', 'vehiculo', 'marca', 'color')->find($id),
 		]; 
 		return \PDF::loadView('print.ivan', $data)
 		// ->setOption('header-html', $headerHtml)
 		// ->setOption('footer-html', $footerHtml)
-		->setOption('page-size','Letter')
+		->setOption('page-size','A4','landscape')
 		->setOption('margin-top', $pageMargins[0])
 		->setOption('margin-right', $pageMargins[1])
 		->setOption('margin-bottom', $pageMargins[2])

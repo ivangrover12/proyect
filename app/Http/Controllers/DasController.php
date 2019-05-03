@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Certificado;
 use App\Certificado2;
 use App\CatProg;
@@ -26,8 +25,6 @@ class DasController extends Controller
     public function new(Request $request)
     {
          // return $request;
-
-       
         $nuevo = new Das();
         $nuevo->lugar = $request->lugar;
         $nuevo->desc_lug = $request->desc_lug;
@@ -41,7 +38,7 @@ class DasController extends Controller
         $nuevo->save();
         
     }
-        public function update(Request $request)
+    public function update(Request $request)
     {
         // return $request;
 
@@ -58,7 +55,7 @@ class DasController extends Controller
         $dass->save();
         
     }
-    public function getcod($cod){
+    public function getcod($cod){   
         $das = Das::where('cod', $cod)->orderBy('cod', 'DESC')->get();
         return $das;
     } //

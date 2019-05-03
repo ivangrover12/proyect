@@ -106,6 +106,9 @@ Route::group(['middleware' => ['auth', 'status']], function(){
 
 
 			Route::get ('print/{id}', 'PdfController@print');
+			Route::get('/print/cert/reporte1/{secuencia}', 'PdfController@print1');
+			Route::get('/print/cert/reporte2/{secuencia}', 'PdfController@print2');
+
 
 
 });
