@@ -104,10 +104,12 @@ Route::group(['middleware' => ['auth', 'status']], function(){
 
 	        	});
 
-
+            Route::get('ff/{ff}/{gestion}', 'PdfController@getff');
+				
+			
 			Route::get ('print/{id}', 'PdfController@print');
-			Route::get('/print/cert/reporte1/{secuencia}', 'PdfController@print1');
-			Route::get('/print/cert/reporte2/{secuencia}', 'PdfController@print2');
+			Route::get('/print/cert/reporte1/{secuencia}/{gestion}', 'PdfController@print1');
+			Route::get('/print/cert/reporte2/{secuencia}/{gestion}', 'PdfController@print2');
 
 
 

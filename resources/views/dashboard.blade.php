@@ -7,6 +7,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body"> Bienvenido al sistema de Certificacion Presupuestaria </div>
+            
         </div>
     </div>
 </div>

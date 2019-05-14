@@ -34,11 +34,19 @@
                 <h4>Sistema Presupuestario </h4>
                 <h4>Ministerio de Desarrollo Rural y Tierras </h4>
             </div>
+        
+      
             <div class="col-md-4">
-                <h6>Usuario:</h6>
-               <p>{{ Auth::user()->first_name }}</p>
-                <h6>Fecha:</h6>
-              <p>{{ Now()->year }} / {{ '0'.Now()->month }} / {{ Now()->day }}</p>
+                <h6>Usuario: {{ Auth::user()->first_name }}</h6>
+               <p></p>
+               @if(Now()->day < 10)
+            @if(Now()->month < 10)
+               <h6>Fecha: {{ Now()->year }} / {{ '0'.Now()->month }} / {{ '0'.Now()->day }}</h6>
+            @endif
+        @else
+            <h6>Fecha: {{ Now()->year }} / {{ Now()->month }} / {{ '0'.Now()->day }}</h6>
+        @endif
+              <p></p>
 
             </div>
          </div>

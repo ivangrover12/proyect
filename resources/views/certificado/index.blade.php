@@ -20,8 +20,8 @@
         <div v-if="secuencia" class="row" href="#jfloat">
             <a class="btn btn-secondary" href="{{ route('certificado.create') }}">Nuevo</a>
             <a class="btn btn-info" :href="'/cert/edit/'+secuencia">Editar</a>
-            <a type="button" :href="'/print/cert/reporte1/'+secuencia" class="btn btn-danger btn-rounded">Reporte 1</a> 
-            <a type="button" :href="'/print/cert/reporte2/'+secuencia" class="btn btn-danger btn-rounded">Reporte 2</a>
+            <a type="button" :href="'/print/cert/reporte1/'+secuencia+'/'+gestion" class="btn btn-danger btn-rounded">Reporte 1</a> 
+            <a type="button" :href="'/print/cert/reporte2/'+secuencia+'/'+gestion" class="btn btn-danger btn-rounded">Reporte 2</a>
         </div>
 
         <div v-else class="row" href="#jfloat">
@@ -118,7 +118,8 @@ const app = new Vue({
             return{
                 select: '',
                 certificados: [],
-                secuencia: ''
+                secuencia: '',
+                gestion: ''
             }
         },
         mounted() {
@@ -127,6 +128,7 @@ const app = new Vue({
             this.select = yyyy;
             axios.get('/getcertifi/'+this.select).then(response => {
                 this.certificados = response.data;
+                this.gestion = yyyy
                 setTimeout(function(){$('#bootstrap-data-table-export').DataTable(
                 {
                         "dom": '<"text-left"<f>>rtip',
@@ -168,6 +170,8 @@ const app = new Vue({
                     $(this).addClass('bg-warning');
                 }
             } );
+
+            
         },
         methods: {
             changeyear(){
@@ -210,5 +214,6 @@ const app = new Vue({
             }
         },
 });
+
 </script>
 @endsection

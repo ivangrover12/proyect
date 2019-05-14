@@ -13,12 +13,16 @@ Administrador: Usuarios
 @endsection
 @section('content')
 <div class="row">
+<div class="card-right">
+<a href="{{ route('user.config') }}" class="btn btn-outline-info" title="Añadir Usuario">Configuracion de Administrador</a>
+</div>
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
                     <strong class="card-title">Lista de Usuarios</strong>
-                    @{{$data }}
+                    
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add_user" title="Añadir Usuario"><i class="fa fa-plus"></i></button>
+                    
                 </div>
                 <div class="card-body text-left">
                     

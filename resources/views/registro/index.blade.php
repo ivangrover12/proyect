@@ -19,14 +19,14 @@
         <div v-if="secuencia" class="row">
             <a class="btn btn-secondary" href="{{ route('registro.create') }}">Nuevo</a>
             <a class="btn btn-info" :href="'/reg/edit/'+secuencia">Editar</a>
-            <button type="button" class="btn btn-danger">Reporte 1</button> 
-            <button type="button" class="btn btn-danger">Reporte 2</button>
+            <button type="button" class="btn btn-danger">Reporte</button> 
+           
         </div>
         <div v-else class="row">
             <a class="btn btn-secondary" href="{{ route('registro.create') }}">Nuevo</a>
             <button type="button" class="btn btn-info" disabled>Editar</button> 
-            <button type="button" class="btn btn-danger" disabled>Reporte 1</button> 
-            <button type="button" class="btn btn-danger" disabled>Reporte 2</button>
+            <button type="button" class="btn btn-danger" disabled>Reporte</button> 
+            
         </div>
         <div class="row mt-3">
             <table id="bootstrap-data-table-export" class="table table-striped table-bordered dt-responsive nowrap">
