@@ -4,7 +4,7 @@
 <div class="card">
     <div class="card-header">
         EJECUCION DE GASTO CORRIENTE - Registro
-        @{{ $data }}
+        <!-- @{{ $data } -->
     </div>
     <div class="card-body">
         <div class="row">

@@ -84,11 +84,14 @@ Route::group(['middleware' => ['auth', 'status']], function(){
 			Route::resource('fuentes', 'FuenteController');
 		    Route::get('/getfuentes/{year}', 'FuenteController@getfuentes');
 			Route::resource('categoria', 'CategoriaController');
+			Route::get('/getorganismos/{year}', 'OrganismoController@getorganismos');
+			Route::resource('organismo', 'OrganismoController');
 			Route::get('/getcategoria/{year}', 'CategoriaController@getcategoria');
 			Route::get('/geteditdas/{cod}', 'DasController@getcod');
 			Route::get('/geteditestructura/{cod}', 'EstructuraController@getcod');
 			Route::get('/geteditdocumentos/{cod}', 'DocumentosController@getcod');
 			Route::get('/geteditfuente/{cod}', 'FuenteController@getcod');
+			Route::get('/geteditorganismo/{cod}', 'OrganismoController@getcod');
 			Route::get('/geteditcategoria/{cod}', 'CategoriaController@getcod');
 			Route::post('/new_das', 'DasController@new');
 			Route::post('/update_das', 'DasController@update');
@@ -98,6 +101,8 @@ Route::group(['middleware' => ['auth', 'status']], function(){
 			Route::post('/update_documentos', 'DocumentosController@update');
 			Route::post('/new_fuente', 'FuenteController@new');
 			Route::post('/update_fuente', 'FuenteController@update');
+			Route::post('/new_organismo', 'OrganismoController@new');
+			Route::post('/update_organismo', 'OrganismoController@update');
 			Route::post('/new_categoria', 'CategoriaController@new');
 			Route::post('/update_categoria', 'CategoriaController@update');
 
@@ -110,6 +115,7 @@ Route::group(['middleware' => ['auth', 'status']], function(){
 			Route::get ('print/{id}', 'PdfController@print');
 			Route::get('/print/cert/reporte1/{secuencia}/{gestion}', 'PdfController@print1');
 			Route::get('/print/cert/reporte2/{secuencia}/{gestion}', 'PdfController@print2');
+			Route::get('/print/ejec/reporte/{secuencia}/{gestion}', 'PdfController@print3');
 
 
 

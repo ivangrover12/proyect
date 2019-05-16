@@ -34,7 +34,7 @@
                         <tr>
                             <th>Secuencia</th>
                             <th>Lugar</th>
-                            <th>Entida</th>
+                            <th>Entidad</th>
                             <th>DA</th>
                             <th>UE</th>
                             <th>F. Elabo</th>

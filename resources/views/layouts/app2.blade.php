@@ -14,17 +14,18 @@
     <link rel="stylesheet" href="{{asset('css/flag-icon.min.css') }}">
     <link rel="stylesheet" href="{{asset('css/toastr.min.css') }}">
     <link rel="stylesheet" href="{{asset('css/print.min.css') }}">
-    <!-- <style>
+    <style>
         .navbar-default .navbar-nav > li.dropdown:hover > a, 
         .navbar-default .navbar-nav > li.dropdown:hover > a:hover,
         .navbar-default .navbar-nav > li.dropdown:hover > a:focus {
             background-color: rgb(231, 231, 231);
-            color: rgb(85, 85, 85);
+            color: rgb(85, 17, 17);
         }
         li.dropdown:hover > .dropdown-menu {
             display: block;
         }
-    </style> -->
+    </style>
+
     @yield('styles')
 </head>
 <body>
@@ -37,14 +38,20 @@
         
       
             <div class="col-md-4">
-                <h6>Usuario: {{ Auth::user()->first_name }}</h6>
+                <h6>Usuario: <strong> {{ Auth::user()->first_name }}</strong></h6>
                <p></p>
-               @if(Now()->day < 10)
+        @if(Now()->day < 10)
             @if(Now()->month < 10)
-               <h6>Fecha: {{ Now()->year }} / {{ '0'.Now()->month }} / {{ '0'.Now()->day }}</h6>
+               <h6>Fecha: <strong>{{ Now()->year }} / {{ '0'.Now()->month }} / {{ '0'.Now()->day }}</strong></h6>
+            @else
+               <h6>Fecha: <strong>{{ Now()->year }} / {{ Now()->month }} / {{ Now()->day }}</strong></h6>
             @endif
         @else
-            <h6>Fecha: {{ Now()->year }} / {{ Now()->month }} / {{ '0'.Now()->day }}</h6>
+            @if(Now()->month < 10)
+            <h6>Fecha: <strong>{{ Now()->year }} / {{ '0'.  Now()->month }} / {{ Now()->day }}</strong></h6>
+            @else
+            <h6>Fecha: <strong>{{ Now()->year }} / {{ Now()->month }} / {{ Now()->day }}</strong></h6>
+            @endif
         @endif
               <p></p>
 
@@ -67,14 +74,15 @@
                
               </li>
             @if(Auth::user()->id == 1)
-                <li class="nav-item">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Adiciones</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Adiciones<span class="caret"></span></a>
                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{ route('das.index') }}">DA y UE</a>
-                    <a class="dropdown-item" href="{{ route('estructura.index')}}">Estructura Programatica</a>
+                    <a class="dropdown-item" href="{{ route('estructura.index')}}">Categorias Programaticas</a>
                     <a class="dropdown-item" href="{{ route('documentos.index') }}">Documentos</a>
                     <a class="dropdown-item" href="{{ route('fuentes.index') }}">Ff</a>
-                    <a class="dropdown-item" href="{{ route('categoria.index') }}">Categorias Programaticas</a>
+                    <a class="dropdown-item" href="{{ route('categoria.index') }}">Partidas</a>
+                    <a class="dropdown-item" href="{{ route('organismo.index') }}">Organismos</a>
                   </div>
                 </li>
                 <li class="nav-item">
