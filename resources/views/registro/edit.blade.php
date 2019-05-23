@@ -272,10 +272,11 @@
                 </div>
                 <div class="row form-group">
                     <div class="col-md-4 mt-2">
-                        <button class="btn btn-info btn-block" @click="savedetall_ega()">Agregar</button>
+                        <button class="btn btn-info btn-block" @click.prevent="savedetall_ega()">Agregar</button>
                     </div>
                     <div class="col-md-4 mt-2">
-                        <button class="btn btn-info btn-block" >Reporte</button>
+                        <!-- <button class="btn btn-info btn-block" >Reporte</button> -->
+                        <a type="button" :href="'/print/ejec/reporte/'+secuencia+'/'+gestion" class="btn btn-info btn-block">Reporte</a> 
                     </div>
                 </div>
                                     
@@ -286,7 +287,7 @@
                        <label for="">Total:</label>
                     </div>
                     <div class="col-md-10">
-                         <input type="text" value=" " class="form-control" v-model='total'>
+                         <input type="text" value=" " class="form-control" disabled v-model='total'>
                     </div>
                  </div>
                 <div class="row form-group">
@@ -294,7 +295,7 @@
                     <label for="">Literal:</label>
                     </div>
                 <div class="col-md-12">
-                    <textarea class="form-control" value=" " name="" id="" rows="8" ></textarea v-model='lite'>
+                    <textarea class="form-control" value=" " name="" id="" rows="8" disabled v-model='lite'></textarea>
                 </div>
                  </div>
                 
@@ -327,7 +328,7 @@
                     <td class="text-center">@{{ get_detall.ent_trf }}</td>
                     <td class="text-center">@{{ get_detall.importe }}</td>
                     <td style="display:none;" class="text-center">@{{ get_detall.cod }}</td>
-                    <td class="text-center"><button @click="deletedetall(get_detall)">Borrar</button></td>
+                    <td class="text-center"><button @click.prevent="deletedetall(get_detall)">Borrar</button></td>
                 </tr>
             </tbody>
         </table>
@@ -398,8 +399,8 @@ const app = new Vue({
             secu: '',
             cod_prev: '',
             registro: '',
-            total: ' ',
-            lite: ' ',
+            total: '',
+            lite: '',
 
             }
     },
@@ -439,8 +440,18 @@ const app = new Vue({
                                     {
                                     
                                     if(respon.data){
-                                            this.detall = respon.data;
-                                          
+                                            this.detall = respon.data[0];
+                                            this.total = respon.data[1];
+                                            var convert = numeroALetras(this.total, {
+                                                plural: "Bolivianos",
+                                                singular: "Boliviano",
+                                                centPlural: "Centavos",
+                                                centSingular: "Centavo"
+                                            });
+                                            this.convert = this.first(convert);
+                                            console.log(this.convert);
+                                            this.lite = this.convert;
+
                                         }
                                         else{
                                             this.det = false;
@@ -563,6 +574,9 @@ const app = new Vue({
             }
             
         },
+        first(string){
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        },
         savedetall_ega(){
                 this.det = true;
             if(this.detall.prog && this.detall.proy && this.detall.act && this.detall.obj_gast && this.detall.ent_trf && this.detall.importe){
@@ -578,7 +592,7 @@ const app = new Vue({
                 
             };
             axios.post('/detall/create', data).then(response => {
-                if(response.data[0]){
+                  if(response.data[0]){
                     this.det = true;
                     this.detall = response.data[0];
                     

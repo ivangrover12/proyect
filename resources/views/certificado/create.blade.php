@@ -468,9 +468,9 @@ const app = new Vue({
                         this.certificados = response.data;
                         toastr.success('Certificado Guardado', 'Operación exitosa');
                     });
-                }
+                    }
                 else{
-                    toastr.warning('¡Error!', 'Seleccione la partida que desea modificar')
+                        toastr.warning('¡Error!', 'Seleccione la partida que desea modificar')
                 }
             }
             else{

@@ -19,7 +19,7 @@
         <div v-if="secuencia" class="row">
             <a class="btn btn-secondary" href="{{ route('registro.create') }}">Nuevo</a>
             <a class="btn btn-info" :href="'/reg/edit/'+secuencia">Editar</a>
-            <button type="button" class="btn btn-danger">Reporte</button> 
+            <a type="button" :href="'/print/ejec/reporte/'+secuencia+'/'+gestion" class="btn btn-danger btn-rounded">Reporte</a> 
            
         </div>
         <div v-else class="row">
@@ -113,13 +113,15 @@ const app = new Vue({
             return{
                 select: '',
                 registros: [],
-                secuencia: ''
+                secuencia: '',
+                gestion: '',
             }
         },
         mounted() {
             var today = new Date();
             var yyyy = today.getFullYear();
             this.select = yyyy;
+            this.gestion = yyyy;
             axios.get('/getregistro/'+this.select).then(response => {
                 this.registros = response.data;
                 setTimeout(function(){$('#bootstrap-data-table-export').DataTable(

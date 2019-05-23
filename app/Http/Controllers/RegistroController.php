@@ -61,14 +61,20 @@ class RegistroController extends Controller
         }
     }
     public function getdetall_ega($secu){
-        $det = Detall_ega::where('cod_prev', $secu)->get();;
+        $det = Detall_ega::where('cod_prev', $secu)->get();
+        $total = 0;        
         if ($det) {
             $result = $det;
-            return $result;
-        }
+            foreach($det as $temp){
+                    $total += $temp->importe;
+                }
+                return [$result,$total];
+            }
         else{
-            return '';
-        }
+                return [$result,$total];
+            }
+        
+       
     }
     public function getdoc($gestion, $tip){
         $doc = Doc::where('gestion', $gestion)->where('nro', $tip)->first();
@@ -150,6 +156,9 @@ class RegistroController extends Controller
             $cert2->importe = $request->importe;
             $cert2->gestion = $request->gestion;
             $cert2->save();
+            $certs2 = Detall_ega::where('cod_prev', $request->cod_prev)->get();
+            $total = 0;
+            
         }
         else{
             abort('No tiene los datos completos');

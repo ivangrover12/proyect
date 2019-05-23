@@ -22,7 +22,7 @@
                         <label for="">Saldo:</label>
                     </div>
                     <div class="col-md-8">
-                        <input type="number" class="form-control" step="0.01" v-model="saldo" disabled>
+                        <input type="number" class="form-control" step="0.01" v-model="saldoN" disabled>
                     </div>
                 </div>
                 <div class="row form-group">
@@ -276,8 +276,8 @@
                 <div class="col-md-6">
                     <div class="form-group text-center">
                         <button class="btn btn-info btn-sm" @click.prevent="savecert2()">Guardar</button>
-                        <button class="btn btn-danger btn-sm">Reporte 1</button>
-                        <button class="btn btn-danger btn-sm">Reporte 2</button>
+                        <a type="button" :href="'/print/cert/reporte1/'+secuencia+'/'+gestion" class="btn btn-danger btn-rounded">Reporte 1</a> 
+                        <a type="button" :href="'/print/cert/reporte2/'+secuencia+'/'+gestion" class="btn btn-danger btn-rounded">Reporte 2</a>
                     </div>
                 </div>
             </div>
@@ -300,7 +300,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="get_cert in certificados2">
+                <!-- <tr v-for="(certificate.cod, index) in certificados"> -->
+                <tr v-for="get_cert in cer2">
                     <td class="text-center">@{{ get_cert.cod_cert }}</td>
                     <td class="text-center">@{{ get_cert.ff }}</td>
                     <td class="text-center">@{{ get_cert.org }}</td>
@@ -369,10 +370,80 @@ const app = new Vue({
             nombre: '',
             cod: '',
             obs: '',
-            certificado2: {}
+            certificado2: {},
+            cer2: [],
+            saldoN: ''
         }
     },
+    mounted() {
+        var today = new Date();
+        var dd = today.getDate();
+        if(dd < 10){
+            dd = '0'+dd;
+        }
+        var mm = today.getMonth()+1;
+        if(mm < 10){
+            mm = '0'+mm;
+        }
+        var yyyy = today.getFullYear();
+        this.gestion = yyyy;
+        this.fecha = yyyy+'-'+mm+'-'+dd;
+        this.select = yyyy;
+        axios.get('/getedit/'+{{$secuencia}}+'/'+this.gestion).then(response => {
+                    this.certificados = response.data;
+                    //console.log(this.certificados);
+                    this.secuencia = {{$secuencia}};
+                    this.fecha = this.certificados[0].gestion;
+                    this.ue = this.certificados[0].ue;
+                    this.das.entidad = this.certificados[0].entidad;
+                    this.obs = this.certificados[0].obs;
+                    this.gast = this.certificados[0].tipo;
+                    this.prog = this.certificados[0].prog;
+                    this.act = this.certificados[0].act;
+                    this.proy = this.certificados[0].proy;
+
+
+                 axios.get('/find/findue/'+this.ue+'/'+this.select).then(res => {
+                    const temp = res.data;
+                    this.desc_ue = temp.desc_ue;
+                    this.das = temp;
+                });
+                 axios.get('/find/findgast/'+this.gast).then(response => {
+                    this.tipo_gasto = response.data;
+                });
+                
+            for(var i = 0; i < this.certificados.length; i++){
+                 
+                
+                axios.get('/cert2/'+this.certificados[i].cod).then(response => {
+                    //console.log(response.data[0])
+                    if(response.data[0]){
+                    
+                    this.cer2 = this.cer2.concat(response.data[0]);
+                    this.saldo = response.data[1];
+                    this.saldoN = eval(this.saldo+this.saldoN);
+                    
+                    }
+                    else{
+                        this.cer2 = [];
+                    }
+                    console.log(this.saldoN)
+                    var convert = numeroALetras(this.saldoN, {
+                        plural: "Bolivianos",
+                        singular: "Boliviano",
+                        centPlural: "Centavos",
+                        centSingular: "Centavo"
+                        });
+                    this.convert = this.first(convert);
+                    
+                }); 
+                 
+             }            
+            });
+
+    },
     methods:{
+     
         reservation(){
             this.reserve = true;
             const data = {
@@ -402,13 +473,6 @@ const app = new Vue({
                 this.secuencia = response.data[0];
                 this.certificados = response.data[1];
             });
-            // var convert = numeroALetras(this.saldo, {
-            //     plural: "Bolivianos",
-            //     singular: "Boliviano",
-            //     centPlural: "Centavos",
-            //     centSingular: "Centavo"
-            // });
-            // this.convert = this.first(convert);
         },
         first(string){
             return string.charAt(0).toUpperCase() + string.slice(1);
@@ -466,7 +530,7 @@ const app = new Vue({
                     data.append('obs', this.obs);
                     axios.post('/certificado/'+this.cod, data).then(response => {
                         this.certificados = response.data;
-                        toastr.success('Certificado Guardado', 'Operación exitosa');
+                        toastr.success('Certificado Guardado', 'Operación exitosa','Recargue la Pagina');
                     });
                 }
                 else{
@@ -480,8 +544,10 @@ const app = new Vue({
         seleccionar(certificado){
             this.cod = certificado.cod;
             axios.get('/cert2/'+certificado.cod).then(response => {
+                //console.log(response.data);
                 if(response.data[0]){
                     this.cert2 = true;
+                    
                     this.certificados2 = response.data[0];
                     this.saldo = response.data[1];
                     var convert = numeroALetras(this.saldo, {
@@ -501,9 +567,24 @@ const app = new Vue({
         deleteCert(certificado){
             axios.delete('/certificado/'+certificado.cod).then(response => {
                 this.certificados = response.data;
+                toastr.success('Eliminado', 'Operación exitosa');
+            });
+        },
+        deletecert2(get_cert){
+            axios.delete('/cert2/delete/'+get_cert.cod).then(response => {
+                if(response.data){
+                    this.certificados2 = response.data;
+                    this.cer2 = this.certificados2;
+                }
+                else{
+                    this.cert2 = false;
+                }
+                toastr.success('Eliminado', 'Operación exitosa');
             });
         },
         savecert2(){
+            if(this.certificado2.ff && this.certificado2.org && this.certificado2.part && this.certificado2.ppto_ley && this.certificado2.ppto_mod){
+            if(this.cod){
             const data = {
                 cod_cert: this.cod,
                 da: this.das.da,
@@ -532,69 +613,28 @@ const app = new Vue({
                         centSingular: "Centavo"
                     });
                     this.convert = this.first(convert);
-                }
+
+                   }
                 else{
                     this.cert2 = false;
                 }
-            });
-        },
-        deletecert2(get_cert){
-            axios.delete('/cert2/delete/'+get_cert.cod).then(response => {
-                if(response.data){
-                    this.certificados2 = response.data;
-                }
-                else{
-                    this.cert2 = false;
-                }
+
+                toastr.success('Guardado', 'Operación exitosa','Recargue la pagina');
                 
             });
         }
-    },
-    mounted() {
-        var today = new Date();
-        var dd = today.getDate();
-        if(dd < 10){
-            dd = '0'+dd;
+        else
+        {
+            toastr.warning('¡Error!', 'Seleccione la partida que desea modificar')
+        }}
+        else{
+            toastr.error('Complete todos los campos', '¡Error!')
         }
-        var mm = today.getMonth()+1;
-        if(mm < 10){
-            mm = '0'+mm;
-        }
-        var yyyy = today.getFullYear();
-        this.gestion = yyyy;
-        this.fecha = yyyy+'-'+mm+'-'+dd;
-        this.select = yyyy;
-        axios.get('/getedit/'+{{$secuencia}}+'/'+this.gestion).then(response => {
-                    this.certificados = response.data;
-                    this.secuencia = {{$secuencia}};
-                    this.fecha = this.certificados[0].gestion;
-                    this.ue = this.certificados[0].ue;
-                    this.das.entidad = this.certificados[0].entidad;
-                    this.obs = this.certificados[0].obs;
-                    this.gast = this.certificados[0].tipo;
-                    this.prog = this.certificados[0].prog;
-                    this.act = this.certificados[0].act;
-                    this.proy = this.certificados[0].proy;
-
-
-                 axios.get('/find/findue/'+this.ue+'/'+this.select).then(res => {
-                    const temp = res.data;
-                    this.desc_ue = temp.desc_ue;
-                    this.das = temp;
-                });
-                 axios.get('/find/findgast/'+this.gast).then(response => {
-                    this.tipo_gasto = response.data;
-                });
-                
-                });
-
-        //this.fecha = dd+'-'+mm+'-'+yyyy;
-        // axios.get('/certificado/models').then(response =>{
-        //     this.cod = response.data[1] + 1;
-
-        // });
-
     },
+  
+        
+},
+   
     
 })
 </script>

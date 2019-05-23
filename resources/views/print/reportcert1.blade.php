@@ -153,7 +153,8 @@ font-size: 9px;
                         <td></td>
                         <td></td>
                         <td>Secuencia:</td>
-                        <td><input type='text' value='{{$cert->secuencia}}' /></td>						
+                        <?php $secuencia=str_pad($cert->secuencia, 5, "0", STR_PAD_LEFT);?>
+                        <td><input type='text' value='{{$secuencia}}' /></td>						
                     </tr>						
                 </table>
             </td>
@@ -168,10 +169,11 @@ font-size: 9px;
                         <td width='130px;'>Estructura Program&aacute;tica:</td>
                         <td width='50px'><input class='in5' type='text' value='{{$cert->prog}}'  /></td>
                         <td width='50px'><input class='$in' type='text' value='{{$cert->proy}}'  /></td>
-                        <td width='50px'><input class='in7' type='text' value='{{$cert->act}}'  /></td>
+                        <?php $act=str_pad($cert->act, 3, "0", STR_PAD_LEFT);?>
+                        <td width='80px'><input class='in7' type='text' value='{{$act}}'  /></td>
                         <td width='380px'><textarea rows='3' cols='80'>{{$cat_prog->nombre}}</textarea></td>
                         <td width='50px'>SISIN:</td>
-                        <td><input class='in9' type='text' value='{{$cat_prog->sisin}}'  /></td>
+                        <td><input class='in9' type='text' value='{{ $cert->proy }}'  /></td>
                     </tr>
                 </table>
             </td>
@@ -189,16 +191,16 @@ font-size: 9px;
 
 		?>
         
-         {{$ff1}}	
-         {{$ff2}}	
 		<?php		
 		foreach( $cer  as $ce )	
 		{
             
-               
-            
-		?>
-             
+            $par = App\Partidas::where('gestion',$ce->gestion)->where('objgast',$ce->part)->first();
+            $org = App\Org::where('gestion',$ce->gestion)->where('org',$ce->org)->first();
+            $ff = App\Ff::where('gestion',$ce->gestion)->where('ff',$ce->ff)->first();
+
+        ?>
+             @if(count($org) > 0) 
    
             <tr>
                 <td>
@@ -207,15 +209,15 @@ font-size: 9px;
                         <tr>
                             <td width='50px'>&nbsp;</td>
                             <td width='50px'>Fuente:</td>
-                            <td width='20px'><input  class='in10' type='text' value='{{$ce->ff}}' /></td>
-                            <td width='200px'><input class='in11' type='text' value='{{ $ce->aux }}'  /></td>
+                            <td width='20px'><input  class='in10' type='text' value='{{ $ce->ff }}' /></td>
+                            <td width='200px'><input class='in11' type='text' value='{{ $ff->descrip }}'  /></td>
                             <td width='200px'>&nbsp;</td>
                         </tr>
                         <tr>
                             <td>&nbsp;</td>
                             <td>Organismo:</td>
                             <td><input class='in10' type='text' value='{{$ce->org}}'  /></td>
-                            <td><input class='in11' type='text' value=''  /></td>
+                            <td><input class='in11' type='text' value='{{$org->descr_org}}'  /></td>
                             <td>&nbsp;</td>
                         </tr>
                         <tr>
@@ -240,18 +242,19 @@ font-size: 9px;
                                     <tr>
                                         <td class='texto-centro'>{{$ce->prog}}</td>
                                         <td class='texto-centro'>{{$ce->proy}}</td>
-                                        <td class='texto-centro'>{{$ce->act}}</td>
+                                        <?php $ac=str_pad($ce->act, 3, "0", STR_PAD_LEFT);?>
+                                        <td class='texto-centro'>{{$ac}}</td>
                                         <td class='texto-centro'>{{$ce->ff}}</td>
                                         <td class='texto-centro'>{{$ce->org}}</td>
                                         <td class='texto-centro'>{{$ce->part}}</td>
-                                        <td></td>
-                                        <td class='texto-derecha'>{{number_format($ppto_ley=$ce->ppto_ley)}}</td>
-                                        <td class='texto-derecha'>{{number_format($ppto_mod=$ce->ppto_mod)}}</td>
-                                        <td class='texto-derecha'>{{number_format($ppto_vig=($ce->ppto_ley+$cert2->ppto_mod))}}</td>
-                                        <td class='texto-derecha'>{{number_format($ejec_com=$ce->eje_com)}}</td>
-                                        <td class='texto-derecha'>{{number_format($saldo_ejec=($ce->ppto_ley+$ce->ppto_mod-$ce->eje_com))}}</td>
-                                        <td class='texto-derecha'>{{number_format($reserva=$ce->reserva)}}</td>
-                                        <td class='texto-derecha'>{{number_format($ppto_disp=($ce->ppto_ley+$ce->ppto_mod-$ce->eje_com-$ce->reserva))}}</td>
+                                        <td class='texto-centro'>{{$par->descrip}}</td>
+                                        <td class='texto-derecha'>{{number_format($ppto_ley=$ce->ppto_ley,2)}}</td>
+                                        <td class='texto-derecha'>{{number_format($ppto_mod=$ce->ppto_mod,2)}}</td>
+                                        <td class='texto-derecha'>{{number_format($ppto_vig=($ce->ppto_ley+$ce->ppto_mod),2)}}</td>
+                                        <td class='texto-derecha'>{{number_format($ejec_com=$ce->eje_com,2)}}</td>
+                                        <td class='texto-derecha'>{{number_format($saldo_ejec=($ce->ppto_ley+$ce->ppto_mod-$ce->eje_com),2)}}</td>
+                                        <td class='texto-derecha'>{{number_format($reserva=$ce->reserva,2)}}</td>
+                                        <td class='texto-derecha'>{{number_format($ppto_disp=($ce->ppto_ley+$ce->ppto_mod-$ce->eje_com-$ce->reserva),2)}}</td>
                                     </tr>												
                                 </table>
                                 <table  border='0' style='border-collapse: collapse; width:100%;' >
@@ -263,15 +266,15 @@ font-size: 9px;
 										<td width='30px'></td>													
                                         <td width='30px'>{{$ce->ff}}</td>
                                         <td width='30px'>{{$ce->org}}</td>
-                                        <td width='30px'></td>
-                                        <td width='110px'></td>
-                                        <td class='texto-derecha'>{{number_format($ppto_ley=$ce->ppto_ley)}}</td>
-                                        <td class='texto-derecha'>{{number_format($ppto_mod=$ce->ppto_mod)}}</td>
-                                        <td class='texto-derecha'>{{number_format($ppto_vig=($ce->ppto_ley+$cert2->ppto_mod))}}</td>
-                                        <td class='texto-derecha'>{{number_format($ejec_com=$ce->eje_com)}}</td>
-                                        <td class='texto-derecha'>{{number_format($saldo_ejec=($ce->ppto_ley+$ce->ppto_mod-$ce->eje_com))}}</td>
-                                        <td class='texto-derecha'>{{number_format($reserva=$ce->reserva)}}</td>
-                                        <td class='texto-derecha'>{{number_format($ppto_disp=($ce->ppto_ley+$ce->ppto_mod-$ce->eje_com-$ce->reserva))}}</td>
+                                        <td width='175px'></td>
+                                        
+                                        <td class='texto-derecha'>{{number_format($ppto_ley=$ce->ppto_ley,2)}}</td>
+                                        <td width='50px' class='texto-derecha'>{{number_format($ppto_mod=$ce->ppto_mod,2)}}</td>
+                                        <td class='texto-derecha'>{{number_format($ppto_vig=($ce->ppto_ley+$ce->ppto_mod),2)}}</td>
+                                        <td class='texto-derecha'>{{number_format($ejec_com=$ce->eje_com,2)}}</td>
+                                        <td class='texto-derecha'>{{number_format($saldo_ejec=($ce->ppto_ley+$ce->ppto_mod-$ce->eje_com),2)}}</td>
+                                        <td class='texto-derecha'>{{number_format($reserva=$ce->reserva,2)}}</td>
+                                        <td class='texto-derecha'>{{number_format($ppto_disp=($ce->ppto_ley+$ce->ppto_mod-$ce->eje_com-$ce->reserva),2)}}</td>
                                     </tr>
                                 </table>
                             </td>
@@ -293,7 +296,7 @@ font-size: 9px;
 				
 
 		?>
-				
+			@endif	
 		<?php       
             }
          ?>
@@ -306,13 +309,13 @@ font-size: 9px;
                     <td width='30px'></td>
                     <td width='30px'></td>
                     <td width='115px'></td>
-                    <td width='60px' class='texto-derecha negrita'>{{number_format($totales['ppto_ley'])}}</td>
-                    <td width='60px' class='texto-derecha negrita'>{{number_format($totales['ppto_mod'])}}</td>
-                    <td width='60px' class='texto-derecha negrita'>{{number_format($totales['ppto_vig'])}}</td>
-                    <td width='60px' class='texto-derecha negrita'>{{number_format($totales['ejec_com'])}}</td>
-                    <td width='60px' class='texto-derecha negrita'>{{number_format($totales['saldo_ejec'])}}</td>
-                    <td width='60px' class='texto-derecha negrita'>{{number_format($totales['reserva'])}}</td>
-                    <td width='60px' class='texto-derecha negrita'>{{number_format($totales['ppto_disp'])}}</td>
+                    <td width='60px' class='texto-derecha negrita'>{{number_format($totales['ppto_ley'],2)}}</td>
+                    <td width='60px' class='texto-derecha negrita'>{{number_format($totales['ppto_mod'],2)}}</td>
+                    <td width='60px' class='texto-derecha negrita'>{{number_format($totales['ppto_vig'],2)}}</td>
+                    <td width='60px' class='texto-derecha negrita'>{{number_format($totales['ejec_com'],2)}}</td>
+                    <td width='60px' class='texto-derecha negrita'>{{number_format($totales['saldo_ejec'],2)}}</td>
+                    <td width='60px' class='texto-derecha negrita'>{{number_format($totales['reserva'],2)}}</td>
+                    <td width='60px' class='texto-derecha negrita'>{{number_format($totales['ppto_disp'],2)}}</td>
                 </tr>							
             </table>
         </td>					
