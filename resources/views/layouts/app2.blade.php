@@ -102,7 +102,27 @@
       <div class="container mt-3" id="app">
           @yield('content')
       </div>
-
+      <footer class="site-footer">
+            <div class="footer-inner bg-white">
+                <div class="row">
+                    <div align='center'class="col-sm-4">
+                        <a href="manual.pdf">Manual de Usuario</a>
+                    </div>
+                    <div align='center'class="col-sm-4">
+                    <strong> MINISTERIO DE DESARROLLO RURAL Y TIERRAS </strong> <br>                        
+                    Av. Camacho # 1471 entre calles Loayza y Bueno <br>
+                    Teléfonos: (591-2) 2111103 - 2200919 - 2200885 Fax: 2111067 <br>
+                    Sitio web: <a href="http://www.ruralytierras.gob.bo">http://www.ruralytierras.gob.bo</a> E-mail: <a href="despacho@ruralytierras.gob.bo">despacho@ruralytierras.gob.bo</a><br>
+                    Copyright &copy; 2019 MDRYT <br>
+                    La Paz - Bolivia
+                    </div>
+                    <div align='center' class="col-sm-4">
+                        Designed by 
+                        <span align='right'><a align='right' href='#'>Monzon</a> <br><a align='right'href='#'>Maldonado</a></span>
+                    </div>
+                </div>
+            </div>
+        </footer>
     <script src="{{ asset('js/vue.js') }}"></script>
     <script src="{{ asset('js/axios.js') }}"></script>
     <script src="{{ asset('js/jquery.min.js') }}"></script>

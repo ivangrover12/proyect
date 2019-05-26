@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Document</title>
     <style>
-    body{
+body{
 	font-family: "Times New Roman";       
 }
 .contenedor{
@@ -103,18 +103,10 @@ pre{
     font-family: "Times New Roman";  
     font-size: 8px;
 }
-    </style>
+</style>
 </head>
 <body>
-    <table class='contenedor' id='tabla-superior'  >
-        <tr id='fila'>
-            <td align='center' width='240px'><span style='font-size: 10px'>MINISTERIO DE DESARROLLO RURAL Y TIERRAS<span><br /><img src="{{public_path() .'/'. 'imagenes/logo-sipmdryt.png'}}" width='250' height='80px' /></td>
-            <td align='center'><h1>CERTIFICACI&Oacute;N PRESUPUESTARIA</h1><h2>ORIGINAL PARA TRAMITES</h2></td>
-            <td align='center' width='120px'><span style='font-size: 13px'>{{ $fhs }} <br /><br />Gestion: {{ $ys }}<br /><br /> Pagina 1<br /></span></td>							
-        </tr>					
-    </table>
-		
-				<table class='contenedor' border='1'>
+				<table class='contenedor' border='2'>
 					<tr>
 						<td>
 							<table class='contenedor letra-mediana' >

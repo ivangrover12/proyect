@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Document</title>
     <style>
-    		body{
+body{
 	font-family: "Times New Roman";       
 }
 .contenedor{
@@ -52,13 +52,13 @@
     width: 21px;
 }
 .in2{
-    width: 415px;
+    width: 350px;
 }
 .in3{
 	width: 60px;
 }
 .in4{
-	width: 130px;
+	width: 100px;
 }
 
 .in5, .in6, .in7{
@@ -108,23 +108,16 @@ font-size: 9px;
     </style>
 </head>
 <body>
-    <table class='contenedor' id='tabla-superior' >
-        <tr id='fila'>
-            <td align='center' width='240px'><span style='font-size: 10px'>MINISTERIO DE DESARROLLO RURAL Y TIERRAS<span><br /><img src="{{public_path() .'/'. 'imagenes/logo-sipmdryt.png'}}" width='250' height='80px' /></td>
-            <td align='center'><h1>CERTIFICACI&Oacute;N PRESUPUESTARIA</h1><h2>ORIGINAL PARA TRAMITES</h2></td>
-            <td align='center' width='120px'><span style='font-size: 13px'>{{ $fhs }} <br /><br />Gestion: {{ $ys }}<br /><br /> Pagina 1<br /></span></td>							
-        </tr>					
-    </table>
     <table class='contenedor' border='2'>
         <tr>
             <td>
                 <table class='contenedor' style='font-size: 10px'>
                     <tr>
-                        <td width='80px'>Lugar:</td>
+                        <td width='90px'>Lugar:</td>
                         <td width='30px' ><input class='in1' type='text' value='LAP'  /></td>
                         <td width='370px'><input class='in2' type='text' value='LA PAZ'  /></td>
                         <td width='85px'>Fecha de Emision:</td>						
-                        <td width='80px'><input class= 'in3' type='text' value='{{ $fs }}'  /></td>
+                        <td width='80px'><input class= 'in3' type='text' value='{{ $cert->gestion }}'  /></td>
                         <td width='70px'>Tipo de Gasto:</td>
                         <td width='120px'><input class='in4' type='text' value='{{ $clasgast->descrip}}' /></td>						
                     </tr>
@@ -198,9 +191,9 @@ font-size: 9px;
             $par = App\Partidas::where('gestion',$ce->gestion)->where('objgast',$ce->part)->first();
             $org = App\Org::where('gestion',$ce->gestion)->where('org',$ce->org)->first();
             $ff = App\Ff::where('gestion',$ce->gestion)->where('ff',$ce->ff)->first();
-
+        
         ?>
-             @if(count($org) > 0) 
+             
    
             <tr>
                 <td>
@@ -210,14 +203,16 @@ font-size: 9px;
                             <td width='50px'>&nbsp;</td>
                             <td width='50px'>Fuente:</td>
                             <td width='20px'><input  class='in10' type='text' value='{{ $ce->ff }}' /></td>
-                            <td width='200px'><input class='in11' type='text' value='{{ $ff->descrip }}'  /></td>
+                            <td width='200px'><input class='in11' type='text' value=<?php if ($ff) { ?>'{{ $ff->descrip }}' <?php }?>></td>
                             <td width='200px'>&nbsp;</td>
                         </tr>
                         <tr>
                             <td>&nbsp;</td>
                             <td>Organismo:</td>
                             <td><input class='in10' type='text' value='{{$ce->org}}'  /></td>
-                            <td><input class='in11' type='text' value='{{$org->descr_org}}'  /></td>
+                            
+                            <td><input class='in11' type='text' value=<?php if($org) { ?>'{{$org->descr_org}}'<?php }?>  ></td>
+                            
                             <td>&nbsp;</td>
                         </tr>
                         <tr>
@@ -247,7 +242,7 @@ font-size: 9px;
                                         <td class='texto-centro'>{{$ce->ff}}</td>
                                         <td class='texto-centro'>{{$ce->org}}</td>
                                         <td class='texto-centro'>{{$ce->part}}</td>
-                                        <td class='texto-centro'>{{$par->descrip}}</td>
+                                        <td class='texto-centro'><?php if ($org) { ?>{{$par->descrip}}<?php }?></td>
                                         <td class='texto-derecha'>{{number_format($ppto_ley=$ce->ppto_ley,2)}}</td>
                                         <td class='texto-derecha'>{{number_format($ppto_mod=$ce->ppto_mod,2)}}</td>
                                         <td class='texto-derecha'>{{number_format($ppto_vig=($ce->ppto_ley+$ce->ppto_mod),2)}}</td>
@@ -296,9 +291,9 @@ font-size: 9px;
 				
 
 		?>
-			@endif	
+				
 		<?php       
-            }
+                }
          ?>
     <tr>
         <td style='background-color:#ccc;' height='30px'>
@@ -355,10 +350,10 @@ font-size: 9px;
         </td>
     </tr>
     <tr>
-        <td height='100px'>
+        <td height='55px'>
             <table class='contenedor' style='font-size: 10px'>
                 <tr>
-                    <td height='100px' width='240px' class='texto-centro abajo'>1-Firma</td>
+                    <td height='55px' width='240px' class='texto-centro abajo'>1-Firma</td>
                     <td width='240px' class='texto-centro abajo'>2-Firma</td>
                     <td width='240px' class='texto-centro abajo'>3-Firma</td>
                 </tr>

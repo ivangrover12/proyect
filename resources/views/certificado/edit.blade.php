@@ -276,8 +276,8 @@
                 <div class="col-md-6">
                     <div class="form-group text-center">
                         <button class="btn btn-info btn-sm" @click.prevent="savecert2()">Guardar</button>
-                        <a type="button" :href="'/print/cert/reporte1/'+secuencia+'/'+gestion" class="btn btn-danger btn-rounded">Reporte 1</a> 
-                        <a type="button" :href="'/print/cert/reporte2/'+secuencia+'/'+gestion" class="btn btn-danger btn-rounded">Reporte 2</a>
+                        <a type="button" :href="'/print/cert/reporte1/'+secuencia+'/'+select" class="btn btn-danger btn-rounded">Reporte 1</a> 
+                        <a type="button" :href="'/print/cert/reporte2/'+secuencia+'/'+select" class="btn btn-danger btn-rounded">Reporte 2</a>
                     </div>
                 </div>
             </div>
@@ -386,10 +386,10 @@ const app = new Vue({
             mm = '0'+mm;
         }
         var yyyy = today.getFullYear();
-        this.gestion = yyyy;
+        this.gestion = {{$gestion}};
         this.fecha = yyyy+'-'+mm+'-'+dd;
-        this.select = yyyy;
-        axios.get('/getedit/'+{{$secuencia}}+'/'+this.gestion).then(response => {
+        this.select = {{$gestion}};
+        axios.get('/getedit/'+{{$secuencia}}+'/'+{{$gestion}}).then(response => {
                     this.certificados = response.data;
                     //console.log(this.certificados);
                     this.secuencia = {{$secuencia}};

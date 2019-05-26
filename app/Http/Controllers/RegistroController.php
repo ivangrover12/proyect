@@ -43,8 +43,8 @@ class RegistroController extends Controller
         $result = Ej_Gasto::where('gestion', $year)->orderBy('sec', 'DESC')->get();
         return $result;
     } //
-    public function getedit($secuencia){
-        return view('registro.edit', compact('secuencia'));
+    public function getedit($secuencia,$gestion){
+        return view('registro.edit', compact('secuencia','gestion'));
     }
     public function getregis($secuencia, $gestion){
         $certificados = Ej_Gasto::where('sec', $secuencia)->where('gestion', $gestion)->get();

@@ -276,7 +276,7 @@
                     </div>
                     <div class="col-md-4 mt-2">
                         <!-- <button class="btn btn-info btn-block" >Reporte</button> -->
-                        <a type="button" :href="'/print/ejec/reporte/'+secuencia+'/'+gestion" class="btn btn-info btn-block">Reporte</a> 
+                        <a type="button" :href="'/print/ejec/reporte/'+secuencia+'/'+select" class="btn btn-info btn-block">Reporte</a> 
                     </div>
                 </div>
                                     
@@ -415,10 +415,10 @@ const app = new Vue({
                 mm = '0'+mm;
             }
         var yyyy = today.getFullYear();
-        this.gestion = yyyy;
+        this.gestion = {{$gestion}};
         this.fecha = yyyy+'-'+mm+'-'+dd;
-        this.select = yyyy;
-				           axios.get('/find/findej_gasto/'+{{$secuencia}}+'/'+this.select).then(res => 
+        this.select = {{$gestion}};
+				           axios.get('/find/findej_gasto/'+{{$secuencia}}+'/'+{{$gestion}}).then(res => 
 				           {
 				                    const temp = res.data;
 				                    this.nro = temp.nro;
@@ -477,7 +477,7 @@ const app = new Vue({
 				                    	($('#r'+i).text()==this.registro)?$('#r'+i).attr('selected', true):''
 				                    }
 				            });
-          axios.get('/getregistroedit/'+{{$secuencia}}+'/'+this.gestion).then(response => 
+          axios.get('/getregistroedit/'+{{$secuencia}}+'/'+this.select).then(response => 
           {
                     this.certificados = response.data;
                     this.secuencia = {{$secuencia}};

@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Certificado;
 use App\Certificado2;
 use App\CatProg;
@@ -26,7 +24,7 @@ class PdfController extends Controller
 
 
  	public function print1($secuencia, $gestion) {
-	
+
 		$certificado = Certificado::where('secuencia',$secuencia)->where('gest',$gestion)->first();
 		$certif = Certificado::where('secuencia',$secuencia)->where('gest',$gestion)->get(); 
 		$pr = [];
@@ -71,35 +69,27 @@ class PdfController extends Controller
 		// }
 		// $cer2 = Certificado2::where('cod_cert',$certificado->cod)->where('gestion',$gestion)
 		// 			->union($ftn1)
-		// 			->get();
-
-		
+		// 			->get();		
+		$headerHtml = view()->make('print.head1')->with('cert',$certificado)->with('hs',now()->format('H:m:s'))->render();
 		$pageName = 'reporte_certificacion_1.pdf';
-		$pageMargins = [5, 5, 5, 5];
+		$pageMargins = [56, 15, 20, 15];
 		// $cer->aux = 'sss';
 		// $cer = (object)$cer; 
 		$data = [
 			'fhs' => now(),
+			'hs'  => now()->format('H:m:s'),
 			'fs' => now()->format('d/m/Y'),
 			'ys' => now()->format('Y'),
 			'cert' => $certificado,
 			'das' => Das::where('da', $certificado->da)->where('ue', $certificado->ue)->where('gestion', $gestion)->first(),
-			'cat_prog' => CatProg::where('da', $certificado->da)->where('ue', $certificado->ue)->where('gestion', $gestion)->first(),
+			'cat_prog' => CatProg::where('da', $certificado->da)->where('ue', $certificado->ue)->where('prog',$certificado->prog)->where('proy',$certificado->proy)->where('act',$certificado->act)->where('gestion', $gestion)->first(),
 			'cert2' => $certificado2,
 			'cer' => $cert,
 			'enBolivianos' => $enBolivianos,
 			'clasgast' => $gast,
-			// 'org' => $orga,
-			// 'partidas' => $partidas,
-			//'certif' => $certif,
-			// 'ff' => Ff::where('ff',$certificado2->ff)->where('gestion', $gestion)->first(),
-			// 'org' => Org::where('org',$certificado2->org)->where('gestion', $gestion)->first(),
-			// 'partidas' => Partidas::where('objgast',$certificado2->part)->where('gestion', $gestion)->first(),
-			// 'das' => Das::where('da',$cert)->where('gestion',$gestion)->first(),
-		// 'guia_internacion' => GuiaInternacion::with('productor', 'productor.departamento_extension', 'vehiculo', 'marca', 'color')->find($id),
 		];
 		return \PDF::loadView('print.reportcert1', $data)
-		// ->setOption('header-html', $headerHtml)
+		->setOption('header-html', $headerHtml)
 		// ->setOption('footer-html', $footerHtml)
 		->setOption('page-size','Letter','landscape')
 		->setOption('margin-top', $pageMargins[0])
@@ -127,8 +117,9 @@ class PdfController extends Controller
 		$ftn = Ff::where('gestion',$gestion)->get();
 		$gast = ClasGast::where('class_gast', $certificado->tipo)->where('gestion',$gestion)->first();
 		$enBolivianos= NumerosEnLetras::convertir(1988208.91,'Bolivianos',false,'Centavos');
-		$pageMargins = [5, 5, 5, 5];
-		$pageName = 'reporte_certificacion_1.pdf';
+		$headerHtml = view()->make('print.head1')->with('cert',$certificado)->with('hs',now()->format('H:m:s'))->render();
+		$pageMargins = [56, 18, 20, 18];
+		$pageName = 'reporte_certificacion_2.pdf';
 		$data = [
 			'fhs' => now(),
 			'fs' => now()->format('d/m/Y'),
@@ -143,28 +134,53 @@ class PdfController extends Controller
 
 		];
 		return \PDF::loadView('print.reportcert2', $data)
+		
 		->setOption('page-size','Letter','landscape')
 		->setOption('margin-top', $pageMargins[0])
 		->setOption('margin-right', $pageMargins[1])
 		->setOption('margin-bottom', $pageMargins[2])
 		->setOption('margin-left', $pageMargins[3])
+		->setOption('header-html', $headerHtml)
 		->setOption('encoding', 'utf-8')
 		->stream($pageName);
 		
-	 } //
+	 } //reporte de ejecucion
 	 public function print3($secuencia, $gestion) {
 		$ej_gasto = Ej_Gasto::where('sec',$secuencia)->where('gestion',$gestion)->first();
 		$ftn = Ff::where('gestion',$gestion)->get();
-		//$gast = ClasGast::where('class_gast', $certificado->tipo)->where('gestion',$gestion)->first();
 		$enBolivianos= NumerosEnLetras::convertir(1988208.91,'Bolivianos',false,'Centavos');
-		// $certif = Certificado2::join("certificado2.ff", '=', $ftn)->first();
-		$pageMargins = [5, 5, 5, 5];
-		$pageName = 'reporte_certificacion_1.pdf';
+		$mpre='';
+		$mcom='';
+		$mdev='';
+		$mreg='';
+
+		if($ej_gasto->mpre)
+		{
+			$mpre='checked';
+		}
+		if($ej_gasto->mcom)
+		{
+			$mcom='checked';
+		}
+		if($ej_gasto->mdev)
+		{
+			$mdev='checked';
+		}
+		if($ej_gasto->mreg)
+		{
+			$mreg='checked';
+		}
+		$headerHtml = view()->make('print.head2')->with('fhs',now())->with('ys',now()->format('Y'))->render();
+		$pageMargins = [50, 18, 20, 18];
+		$pageName = 'reporte_ejecucion_presupuestaria.pdf';
 		$data = [
 			'fhs' => now(),
 			'fs' => now()->format('d/m/Y'),
 			'ys' => now()->format('Y'),
-			'pq' => 'mundo',
+			'mpre' => $mpre,
+			'mcom' => $mcom,
+			'mdev' => $mdev,
+			'mreg' => $mreg,
 			'cert' => $ej_gasto,
 			'das' => Das::where('da', $ej_gasto->dir)->where('ue', $ej_gasto->ue)->where('gestion', $gestion)->first(),
 			'doc' => Doc::where('nro',$ej_gasto->tip)->where('gestion', $gestion)->first(),
@@ -172,22 +188,10 @@ class PdfController extends Controller
 			'ff' => Ff::where('ff',$ej_gasto->ff)->where('gestion',$gestion)->first(),
 			'org' => Org::where('org',$ej_gasto->org)->where('gestion',$gestion)->first(),
 			'ega' => Detall_ega::where('cod_prev',$ej_gasto->secu)->where('gestion',$gestion)->get(),
-			//'cert2' => $certificado2,
-			//'cer' => $cer,
-			//'ff' => $ftn,
-			//'enBolivianos' => $enBolivianos,
-			//'clasgast' => $gast,
-			// 'org' => $orga,
-			// 'partidas' => $partidas,
-			// 'certif' => $certif,
-			// 'ff' => Ff::where('ff',$certificado2->ff)->where('gestion', $gestion)->first(),
-			// 'org' => Org::where('org',$certificado2->org)->where('gestion', $gestion)->first(),
-			// 'partidas' => Partidas::where('objgast',$certificado2->part)->where('gestion', $gestion)->first(),
-			// 'das' => Das::where('da',$cert)->where('gestion',$gestion)->first(),
 		// 'guia_internacion' => GuiaInternacion::with('productor', 'productor.departamento_extension', 'vehiculo', 'marca', 'color')->find($id),
 		];
 		return \PDF::loadView('print.reportejec', $data)
-		// ->setOption('header-html', $headerHtml)
+		
 		// ->setOption('footer-html', $footerHtml)
 		->setOption('page-size','Letter','landscape')
 		->setOption('margin-top', $pageMargins[0])
@@ -195,6 +199,7 @@ class PdfController extends Controller
 		->setOption('margin-bottom', $pageMargins[2])
 		->setOption('margin-left', $pageMargins[3])
 		->setOption('encoding', 'utf-8')
+		->setOption('header-html', $headerHtml)
 		->stream($pageName);
 		
 	 }

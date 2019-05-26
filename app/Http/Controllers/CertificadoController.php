@@ -258,8 +258,8 @@ class CertificadoController extends Controller
         }
     }
 
-    public function getedit($secuencia){
-        return view('certificado.edit', compact('secuencia'));
+    public function getedit($secuencia,$gestion){
+        return view('certificado.edit', compact('secuencia','gestion'));
     }
 
     public function getcerti($secuencia, $gestion){

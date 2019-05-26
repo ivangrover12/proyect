@@ -127,13 +127,7 @@ pre{
     </style>
 </head>
 <body>
-    <table class='contenedor' id='tabla-superior'>
-                    <tr id='fila'>
-                    <td align='center' width='240px'><span style='font-size: 10px'>MINISTERIO DE DESARROLLO RURAL Y TIERRAS<span><br /><img src="{{public_path() .'/'. 'imagenes/logo-sipmdryt.png'}}" width='250' height='80px' /></td>
-                        <td align='center'><h1>REGISTRO DE LA EJECUCI&Oacute;N DE GASTO</h1><br /></td>
-                        <td align='center' width='120px'><span style='font-size: 13px'>{{ $fhs }} <br /><br />Gestion: {{ $ys }}<br /><br /> Pagina 1 de 1<br /><br />R_EGA_C_31</span></td>	
-                    </tr>                   
-                </table>
+  
     
                 <table class='contenedor' border='1'>
                     <tr>
@@ -185,7 +179,7 @@ pre{
                     </tr>
                                         <tr>
                                             <td style='padding: 10px 10px 10px 10px'>
-                                                <span class='negrita'>MOMENTOS:</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='font-size: 13px' colspan='7'>Preventivo &nbsp;&nbsp;&nbsp;<input type='checkbox' ".$preven."/></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='font-size: 13px' colspan='7'>Comprometido&nbsp;&nbsp;&nbsp;<input type='checkbox' ".$com." /></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='font-size: 13px' colspan='7'>Devengado&nbsp;&nbsp;&nbsp;<input type='checkbox' ".$deven." /></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='font-size: 13px' colspan='7'>Regularizado&nbsp;&nbsp;&nbsp;<input type='checkbox' ".$reg."/><br />
+                                                <span class='negrita'>MOMENTOS:</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='font-size: 13px' colspan='7'>Preventivo &nbsp;&nbsp;&nbsp;<input type='checkbox' {{$mpre}}></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='font-size: 13px' colspan='7'>Comprometido&nbsp;&nbsp;&nbsp;<input type='checkbox' {{$mcom}} /></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='font-size: 13px' colspan='7'>Devengado&nbsp;&nbsp;&nbsp;<input type='checkbox' {{$mdev}} /></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='font-size: 13px' colspan='7'>Regularizado&nbsp;&nbsp;&nbsp;<input type='checkbox' {{$mreg}}><br />
                                                 <span class='negrita'>TIPO DE REGISTRO:</span> <input id='tipo1' type='text' value='{{ $cert->tipo }}' />&nbsp;&nbsp;&nbsp;&nbsp;<input id='tipo2' type='text' value='{{ $cert->detipo }}' /></span>
                                             </td>
                                         </tr>
@@ -264,7 +258,7 @@ pre{
                                                     <?php $obj_gast=str_pad($partida->obj_gast, 3, "0", STR_PAD_LEFT);?>
                                                     <td align='center'>{{$obj_gast}}</td>
                                                     <td align='center'>{{$partida->ent_trf}}</td>
-                                                    <td style='padding: 6px 6px 6px 10px'>{{$par->descrip}}</td>
+                                                    <td style='padding: 6px 6px 6px 10px'><?php if ($par) { ?>{{$par->descrip}}<?php }?></td>
                                                     <td align='right' style='padding: 0px 10px 0px 0px' width='90px'>{{number_format($importe=$partida->importe,2)}}</td>
                                                 </tr>
                                                 <?php       

@@ -48,8 +48,8 @@ Route::group(['middleware' => ['auth', 'status']], function(){
 			Route::post('/ej_gasto/update', 'RegistroController@update');
 			Route::delete('/cert2/delete/{id}', 'CertificadoController@destroy2');
 			
-			Route::get('/cert/edit/{secuencia}', 'CertificadoController@getedit')->name('certifi.edit');
-			Route::get('/reg/edit/{secuencia}', 'RegistroController@getedit')->name('regis.edit');
+			Route::get('/cert/edit/{secuencia}/{gestion}', 'CertificadoController@getedit')->name('certifi.edit');
+			Route::get('/reg/edit/{secuencia}/{gestion}', 'RegistroController@getedit')->name('regis.edit');
 
 			Route::get('/getedit/{secuencia}/{gestion}', 'CertificadoController@getcerti');
 			Route::get('/getregistroedit/{secuencia}/{gestion}', 'RegistroController@getregis');
